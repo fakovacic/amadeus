@@ -11,16 +11,19 @@ type FlightOffersSearchRequest struct {
 	Sources            []string             `json:"sources"`
 	SearchCriteria     SearchCriteria       `json:"searchCriteria"`
 }
-type DepartureDateTimeRange struct {
+
+type OriginDestinations struct {
+	ID                      string    `json:"id"`
+	OriginLocationCode      string    `json:"originLocationCode"`
+	DestinationLocationCode string    `json:"destinationLocationCode"`
+	DepartureDateTimeRange  TimeRange `json:"departureDateTimeRange"`
+}
+
+type TimeRange struct {
 	Date string `json:"date"`
 	Time string `json:"time"`
 }
-type OriginDestinations struct {
-	ID                      string                 `json:"id"`
-	OriginLocationCode      string                 `json:"originLocationCode"`
-	DestinationLocationCode string                 `json:"destinationLocationCode"`
-	DepartureDateTimeRange  DepartureDateTimeRange `json:"departureDateTimeRange"`
-}
+
 type Travelers struct {
 	ID           string `json:"id"`
 	TravelerType string `json:"travelerType"`
