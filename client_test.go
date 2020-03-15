@@ -33,7 +33,7 @@ func TestNew(t *testing.T) {
 			Name:     "Environment",
 			Key:      os.Getenv("AMADEUS_CLIENT_ID"),
 			Secret:   os.Getenv("AMADEUS_CLIENT_SECRET"),
-			Env:      "TEST",
+			Env:      os.Getenv("AMADEUS_ENV"),
 			Expected: "success",
 		},
 		{
@@ -89,7 +89,7 @@ func TestToken(t *testing.T) {
 			Name:     "Environment",
 			Key:      os.Getenv("AMADEUS_CLIENT_ID"),
 			Secret:   os.Getenv("AMADEUS_CLIENT_SECRET"),
-			Env:      "TEST",
+			Env:      os.Getenv("AMADEUS_ENV"),
 			Expected: "success",
 		},
 	}
