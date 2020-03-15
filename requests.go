@@ -1,4 +1,4 @@
-package amadeusgo
+package amadeusgolang
 
 import (
 	"encoding/json"
