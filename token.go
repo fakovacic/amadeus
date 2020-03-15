@@ -5,20 +5,20 @@ import (
 )
 
 type token struct {
-	Type             string        `json:"type"`
-	Username         string        `json:"username"`
-	AppName          string        `json:"application_name"`
-	ClientID         string        `json:"client_id"`
-	TokenType        string        `json:"token_type"`
-	AccessToken      string        `json:"access_token"`
-	ExpiresIn        time.Duration `json:"expires_in"`
-	State            string        `json:"state"`
-	Scope            string        `json:"scope"`
+	Type             string        `json:"type,omitempty"`
+	Username         string        `json:"username,omitempty"`
+	AppName          string        `json:"application_name,omitempty"`
+	ClientID         string        `json:"client_id,omitempty"`
+	TokenType        string        `json:"token_type,omitempty"`
+	AccessToken      string        `json:"access_token,omitempty"`
+	ExpiresIn        time.Duration `json:"expires_in,omitempty"`
+	State            string        `json:"state,omitempty"`
+	Scope            string        `json:"scope,omitempty"`
+	Error            string        `json:"error,omitempty"`
+	ErrorDescription string        `json:"error_description,omitempty"`
+	Code             int           `json:"code,omitempty"`
+	Title            string        `json:"title,omitempty"`
 	Created          time.Time
-	Error            string `json:"error"`
-	ErrorDescription string `json:"error_description"`
-	Code             int    `json:"code"`
-	Title            string `json:"title"`
 }
 
 func (t *token) getBearer() string {

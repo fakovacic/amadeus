@@ -1,14 +1,14 @@
 package amadeusgolang
 
 type ErrorResponse struct {
-	Code   int    `json:"code"`
-	Title  string `json:"title"`
-	Detail string `json:"detail"`
+	Code   int    `json:"code,omitempty"`
+	Title  string `json:"title,omitempty"`
+	Detail string `json:"detail,omitempty"`
 	Source struct {
-		Pointer string `json:"pointer"`
-		Example string `json:"example"`
-	} `json:"source"`
-	Status int `json:"status"`
+		Pointer string `json:"pointer,omitempty"`
+		Example string `json:"example,omitempty"`
+	} `json:"source,omitempty"`
+	Status int `json:"status,omitempty"`
 }
 
 // FlightOffersSearchRequest
@@ -16,56 +16,56 @@ type ErrorResponse struct {
 // REQUEST
 
 type FlightOffersSearchRequest struct {
-	CurrencyCode       string               `json:"currencyCode"`
-	OriginDestinations []OriginDestinations `json:"originDestinations"`
-	Travelers          []Travelers          `json:"travelers"`
-	Sources            []string             `json:"sources"`
-	SearchCriteria     SearchCriteria       `json:"searchCriteria"`
+	CurrencyCode       string               `json:"currencyCode,omitempty"`
+	OriginDestinations []OriginDestinations `json:"originDestinations,omitempty"`
+	Travelers          []Travelers          `json:"travelers,omitempty"`
+	Sources            []string             `json:"sources,omitempty"`
+	SearchCriteria     SearchCriteria       `json:"searchCriteria,omitempty"`
 }
 
 type OriginDestinations struct {
-	ID                      string    `json:"id"`
-	OriginLocationCode      string    `json:"originLocationCode"`
-	DestinationLocationCode string    `json:"destinationLocationCode"`
-	DepartureDateTimeRange  TimeRange `json:"departureDateTimeRange"`
+	ID                      string    `json:"id,omitempty"`
+	OriginLocationCode      string    `json:"originLocationCode,omitempty"`
+	DestinationLocationCode string    `json:"destinationLocationCode,omitempty"`
+	DepartureDateTimeRange  TimeRange `json:"departureDateTimeRange,omitempty"`
 }
 
 type TimeRange struct {
-	Date string `json:"date"`
-	Time string `json:"time"`
+	Date string `json:"date,omitempty"`
+	Time string `json:"time,omitempty"`
 }
 
 type Travelers struct {
-	ID           string `json:"id"`
-	TravelerType string `json:"travelerType"`
+	ID           string `json:"id,omitempty"`
+	TravelerType string `json:"travelerType,omitempty"`
 }
 type CabinRestrictions struct {
-	Cabin                string   `json:"cabin"`
-	Coverage             string   `json:"coverage"`
-	OriginDestinationIds []string `json:"originDestinationIds"`
+	Cabin                string   `json:"cabin,omitempty"`
+	Coverage             string   `json:"coverage,omitempty"`
+	OriginDestinationIds []string `json:"originDestinationIds,omitempty"`
 }
 type CarrierRestrictions struct {
-	ExcludedCarrierCodes []string `json:"excludedCarrierCodes"`
+	ExcludedCarrierCodes []string `json:"excludedCarrierCodes,omitempty"`
 }
 type FlightFilters struct {
-	CabinRestrictions   []CabinRestrictions `json:"cabinRestrictions"`
-	CarrierRestrictions CarrierRestrictions `json:"carrierRestrictions"`
+	CabinRestrictions   []CabinRestrictions `json:"cabinRestrictions,omitempty"`
+	CarrierRestrictions CarrierRestrictions `json:"carrierRestrictions,omitempty"`
 }
 type SearchCriteria struct {
-	MaxFlightOffers int           `json:"maxFlightOffers"`
-	FlightFilters   FlightFilters `json:"flightFilters"`
+	MaxFlightOffers int           `json:"maxFlightOffers,omitempty"`
+	FlightFilters   FlightFilters `json:"flightFilters,omitempty"`
 }
 
 // RESPONSE
 
 type FlightOffersSearchResponse struct {
-	Meta   Meta            `json:"meta"`
-	Data   []FlightOffer   `json:"data"`
-	Errors []ErrorResponse `json:"errors"`
+	Meta   Meta            `json:"meta,omitempty"`
+	Data   []FlightOffer   `json:"data,omitempty"`
+	Errors []ErrorResponse `json:"errors,omitempty"`
 }
 
 type Meta struct {
-	Count int `json:"count"`
+	Count int `json:"count,omitempty"`
 }
 
 // FlightOffersPrice
@@ -73,19 +73,19 @@ type Meta struct {
 // REQUEST
 
 type FlightOffersPriceRequest struct {
-	Data FlightOffer `json:"data"`
+	Data FlightOffer `json:"data,omitempty"`
 }
 
 // RESPONSE
 
 type FlightOffersPriceResponse struct {
-	Data   PricingData     `json:"data"`
-	Errors []ErrorResponse `json:"errors"`
+	Data   PricingData     `json:"data,omitempty"`
+	Errors []ErrorResponse `json:"errors,omitempty"`
 }
 
 type PricingData struct {
-	Type         string        `json:"type"`
-	FlightOffers []FlightOffer `json:"flightOffers"`
+	Type         string        `json:"type,omitempty"`
+	FlightOffers []FlightOffer `json:"flightOffers,omitempty"`
 }
 
 // FlightCreateOrders
@@ -93,224 +93,224 @@ type PricingData struct {
 // REQUEST
 
 type FlightCreateOrdersRequest struct {
-	Data OrderData `json:"data"`
+	Data OrderData `json:"data,omitempty"`
 }
 
 // RESPONSE
 
 type FlightCreateOrdersResponse struct {
-	Data   OrderData       `json:"data"`
-	Errors []ErrorResponse `json:"errors"`
+	Data   OrderData       `json:"data,omitempty"`
+	Errors []ErrorResponse `json:"errors,omitempty"`
 }
 
 type FlightOffer struct {
-	Type                     string            `json:"type"`
-	ID                       string            `json:"id"`
-	Source                   string            `json:"source"`
-	InstantTicketingRequired bool              `json:"instantTicketingRequired"`
-	NonHomogeneous           bool              `json:"nonHomogeneous"`
-	OneWay                   bool              `json:"oneWay"`
-	LastTicketingDate        string            `json:"lastTicketingDate"`
-	NumberOfBookableSeats    int               `json:"numberOfBookableSeats"`
-	Itineraries              []Itinerarie      `json:"itineraries"`
-	Price                    Price             `json:"price"`
-	PricingOptions           PricingOption     `json:"pricingOptions"`
-	ValidatingAirlineCodes   []string          `json:"validatingAirlineCodes"`
-	TravelerPricings         []TravelerPricing `json:"travelerPricings"`
-	PaymentCardRequired      bool              `json:"paymentCardRequired"`
+	Type                     string            `json:"type,omitempty"`
+	ID                       string            `json:"id,omitempty"`
+	Source                   string            `json:"source,omitempty"`
+	InstantTicketingRequired bool              `json:"instantTicketingRequired,omitempty"`
+	NonHomogeneous           bool              `json:"nonHomogeneous,omitempty"`
+	OneWay                   bool              `json:"oneWay,omitempty"`
+	LastTicketingDate        string            `json:"lastTicketingDate,omitempty"`
+	NumberOfBookableSeats    int               `json:"numberOfBookableSeats,omitempty"`
+	Itineraries              []Itinerarie      `json:"itineraries,omitempty"`
+	Price                    Price             `json:"price,omitempty"`
+	PricingOptions           PricingOption     `json:"pricingOptions,omitempty"`
+	ValidatingAirlineCodes   []string          `json:"validatingAirlineCodes,omitempty"`
+	TravelerPricings         []TravelerPricing `json:"travelerPricings,omitempty"`
+	PaymentCardRequired      bool              `json:"paymentCardRequired,omitempty"`
 }
 
 type Itinerarie struct {
-	Duration string    `json:"duration"`
-	Segments []Segment `json:"segments"`
+	Duration string    `json:"duration,omitempty"`
+	Segments []Segment `json:"segments,omitempty"`
 }
 
 type Segment struct {
-	ID              string        `json:"id"`
-	Departure       Destination   `json:"departure"`
-	Arrival         Destination   `json:"arrival"`
-	CarrierCode     string        `json:"carrierCode"`
-	Number          string        `json:"number"`
-	Aircraft        Aircraft      `json:"aircraft"`
-	Operating       Operating     `json:"operating"`
-	Duration        string        `json:"duration"`
-	Co2Emissions    []Co2Emission `json:"co2Emissions"`
-	NumberOfStops   int           `json:"numberOfStops"`
-	BlacklistedInEU bool          `json:"blacklistedInEU"`
+	ID              string        `json:"id,omitempty"`
+	Departure       Destination   `json:"departure,omitempty"`
+	Arrival         Destination   `json:"arrival,omitempty"`
+	CarrierCode     string        `json:"carrierCode,omitempty"`
+	Number          string        `json:"number,omitempty"`
+	Aircraft        Aircraft      `json:"aircraft,omitempty"`
+	Operating       Operating     `json:"operating,omitempty"`
+	Duration        string        `json:"duration,omitempty"`
+	Co2Emissions    []Co2Emission `json:"co2Emissions,omitempty"`
+	NumberOfStops   int           `json:"numberOfStops,omitempty"`
+	BlacklistedInEU bool          `json:"blacklistedInEU,omitempty"`
 }
 
 type Destination struct {
-	IataCode string `json:"iataCode"`
-	Terminal string `json:"terminal"`
-	At       string `json:"at"`
+	IataCode string `json:"iataCode,omitempty"`
+	Terminal string `json:"terminal,omitempty"`
+	At       string `json:"at,omitempty"`
 }
 
 type Aircraft struct {
-	Code string `json:"code"`
+	Code string `json:"code,omitempty"`
 }
 type Operating struct {
-	CarrierCode string `json:"carrierCode"`
+	CarrierCode string `json:"carrierCode,omitempty"`
 }
 
 type Co2Emission struct {
-	Weight     string `json:"weight"`
-	WeightUnit string `json:"weightUnit"`
-	Cabin      string `json:"cabin"`
+	Weight     string `json:"weight,omitempty"`
+	WeightUnit string `json:"weightUnit,omitempty"`
+	Cabin      string `json:"cabin,omitempty"`
 }
 
 type Price struct {
-	Currency        string  `json:"currency"`
-	Total           string  `json:"total"`
-	Base            string  `json:"base"`
-	Fees            []Fees  `json:"fees"`
-	Taxes           []Taxes `json:"taxes"`
-	GrandTotal      string  `json:"grandTotal"`
-	BillingCurrency string  `json:"billingCurrency"`
+	Currency        string  `json:"currency,omitempty"`
+	Total           string  `json:"total,omitempty"`
+	Base            string  `json:"base,omitempty"`
+	Fees            []Fees  `json:"fees,omitempty"`
+	Taxes           []Taxes `json:"taxes,omitempty"`
+	GrandTotal      string  `json:"grandTotal,omitempty"`
+	BillingCurrency string  `json:"billingCurrency,omitempty"`
 }
 
 type Fees struct {
-	Amount string `json:"amount"`
-	Type   string `json:"type"`
+	Amount string `json:"amount,omitempty"`
+	Type   string `json:"type,omitempty"`
 }
 
 type Taxes struct {
-	Amount string `json:"amount"`
-	Code   string `json:"code"`
+	Amount string `json:"amount,omitempty"`
+	Code   string `json:"code,omitempty"`
 }
 
 type PricingOption struct {
-	FareType                []string `json:"fareType"`
-	IncludedCheckedBagsOnly bool     `json:"includedCheckedBagsOnly"`
+	FareType                []string `json:"fareType,omitempty"`
+	IncludedCheckedBagsOnly bool     `json:"includedCheckedBagsOnly,omitempty"`
 }
 
 type TravelerPricing struct {
-	TravelerID           string                 `json:"travelerId"`
-	FareOption           string                 `json:"fareOption"`
-	TravelerType         string                 `json:"travelerType"`
-	Price                Price                  `json:"price"`
-	FareDetailsBySegment []FareDetailsBySegment `json:"fareDetailsBySegment"`
+	TravelerID           string                 `json:"travelerId,omitempty"`
+	FareOption           string                 `json:"fareOption,omitempty"`
+	TravelerType         string                 `json:"travelerType,omitempty"`
+	Price                Price                  `json:"price,omitempty"`
+	FareDetailsBySegment []FareDetailsBySegment `json:"fareDetailsBySegment,omitempty"`
 }
 
 type FareDetailsBySegment struct {
-	SegmentID           string              `json:"segmentId"`
-	Cabin               string              `json:"cabin"`
-	FareBasis           string              `json:"fareBasis"`
-	BrandedFare         string              `json:"brandedFare"`
-	Class               string              `json:"class"`
-	IncludedCheckedBags IncludedCheckedBags `json:"includedCheckedBags"`
+	SegmentID           string              `json:"segmentId,omitempty"`
+	Cabin               string              `json:"cabin,omitempty"`
+	FareBasis           string              `json:"fareBasis,omitempty"`
+	BrandedFare         string              `json:"brandedFare,omitempty"`
+	Class               string              `json:"class,omitempty"`
+	IncludedCheckedBags IncludedCheckedBags `json:"includedCheckedBags,omitempty"`
 }
 
 type IncludedCheckedBags struct {
-	Quantity int `json:"quantity"`
+	Quantity int `json:"quantity,omitempty"`
 }
 
 // CreateOrder specific
 
 type OrderData struct {
-	ID                 string             `json:"id"`
-	Type               string             `json:"type"`
-	AssociatedRecords  []AssociatedRecord `json:"associatedRecords"`
-	FlightOffers       []FlightOffer      `json:"flightOffers"`
-	Travelers          []Traveler         `json:"travelers"`
-	Contacts           []Contact          `json:"contacts"`
-	Remarks            Remarks            `json:"remarks"`
-	FormOfPayments     []FormOfPayments   `json:"formOfPayments"`
-	TicketingAgreement TicketingAgreement `json:"ticketingAgreement"`
-	AutomatedProcess   []AutomatedProcess `json:"automatedProcess"`
+	ID                 string             `json:"id,omitempty"`
+	Type               string             `json:"type,omitempty"`
+	AssociatedRecords  []AssociatedRecord `json:"associatedRecords,omitempty"`
+	FlightOffers       []FlightOffer      `json:"flightOffers,omitempty"`
+	Travelers          []Traveler         `json:"travelers,omitempty"`
+	Contacts           []Contact          `json:"contacts,omitempty"`
+	Remarks            Remarks            `json:"remarks,omitempty"`
+	FormOfPayments     []FormOfPayments   `json:"formOfPayments,omitempty"`
+	TicketingAgreement TicketingAgreement `json:"ticketingAgreement,omitempty"`
+	AutomatedProcess   []AutomatedProcess `json:"automatedProcess,omitempty"`
 }
 
 type AssociatedRecord struct {
-	Reference        string `json:"reference"`
-	CreationDate     string `json:"creationDate"`
-	OriginSystemCode string `json:"originSystemCode"`
-	FlightOfferID    string `json:"flightOfferId"`
+	Reference        string `json:"reference,omitempty"`
+	CreationDate     string `json:"creationDate,omitempty"`
+	OriginSystemCode string `json:"originSystemCode,omitempty"`
+	FlightOfferID    string `json:"flightOfferId,omitempty"`
 }
 
 type Traveler struct {
-	ID          string     `json:"id"`
-	DateOfBirth string     `json:"dateOfBirth"`
-	Name        Name       `json:"name"`
-	Gender      string     `json:"gender"`
-	Contact     Contact    `json:"contact"`
-	Documents   []Document `json:"documents,omitempty"`
+	ID          string     `json:"id,omitempty"`
+	DateOfBirth string     `json:"dateOfBirth,omitempty"`
+	Name        Name       `json:"name,omitempty"`
+	Gender      string     `json:"gender,omitempty"`
+	Contact     Contact    `json:"contact,omitempty"`
+	Documents   []Document `json:"documents,omitempty,omitempty"`
 }
 
 type Name struct {
-	FirstName string `json:"firstName"`
-	LastName  string `json:"lastName"`
+	FirstName string `json:"firstName,omitempty"`
+	LastName  string `json:"lastName,omitempty"`
 }
 
 type Contact struct {
-	AddresseeName AddresseeName `json:"addresseeName"`
-	Address       Address       `json:"address,omitempty"`
-	Purpose       string        `json:"purpose"`
-	CompanyName   string        `json:"companyName"`
-	Phones        []Phone       `json:"phones,omitempty"`
-	EmailAddress  string        `json:"emailAddress,omitempty"`
+	AddresseeName AddresseeName `json:"addresseeName,omitempty"`
+	Address       Address       `json:"address,omitempty,omitempty"`
+	Purpose       string        `json:"purpose,omitempty"`
+	CompanyName   string        `json:"companyName,omitempty"`
+	Phones        []Phone       `json:"phones,omitempty,omitempty"`
+	EmailAddress  string        `json:"emailAddress,omitempty,omitempty"`
 }
 
 type AddresseeName struct {
-	FirstName string `json:"firstName"`
-	LastName  string `json:"lastName"`
+	FirstName string `json:"firstName,omitempty"`
+	LastName  string `json:"lastName,omitempty"`
 }
 type Address struct {
-	Lines       []string `json:"lines"`
-	PostalCode  string   `json:"postalCode"`
-	CountryCode string   `json:"countryCode"`
-	CityName    string   `json:"cityName"`
-	StateName   string   `json:"stateName"`
-	PostalBox   string   `json:"postalBox"`
+	Lines       []string `json:"lines,omitempty"`
+	PostalCode  string   `json:"postalCode,omitempty"`
+	CountryCode string   `json:"countryCode,omitempty"`
+	CityName    string   `json:"cityName,omitempty"`
+	StateName   string   `json:"stateName,omitempty"`
+	PostalBox   string   `json:"postalBox,omitempty"`
 }
 
 type Phone struct {
-	DeviceType         string `json:"deviceType"`
-	CountryCallingCode string `json:"countryCallingCode"`
-	Number             string `json:"number"`
+	DeviceType         string `json:"deviceType,omitempty"`
+	CountryCallingCode string `json:"countryCallingCode,omitempty"`
+	Number             string `json:"number,omitempty"`
 }
 
 type Document struct {
-	DocumentType     string `json:"documentType"`
-	BirthPlace       string `json:"birthPlace"`
-	IssuanceLocation string `json:"issuanceLocation"`
-	IssuanceDate     string `json:"issuanceDate"`
-	Number           string `json:"number"`
-	ExpiryDate       string `json:"expiryDate"`
-	IssuanceCountry  string `json:"issuanceCountry"`
-	ValidityCountry  string `json:"validityCountry"`
-	Nationality      string `json:"nationality"`
-	Holder           bool   `json:"holder"`
+	DocumentType     string `json:"documentType,omitempty"`
+	BirthPlace       string `json:"birthPlace,omitempty"`
+	IssuanceLocation string `json:"issuanceLocation,omitempty"`
+	IssuanceDate     string `json:"issuanceDate,omitempty"`
+	Number           string `json:"number,omitempty"`
+	ExpiryDate       string `json:"expiryDate,omitempty"`
+	IssuanceCountry  string `json:"issuanceCountry,omitempty"`
+	ValidityCountry  string `json:"validityCountry,omitempty"`
+	Nationality      string `json:"nationality,omitempty"`
+	Holder           bool   `json:"holder,omitempty"`
 }
 
 type FormOfPayments struct {
-	Other Other `json:"other"`
+	Other Other `json:"other,omitempty"`
 }
 
 type Other struct {
-	Method         string   `json:"method"`
-	FlightOfferIds []string `json:"flightOfferIds"`
+	Method         string   `json:"method,omitempty"`
+	FlightOfferIds []string `json:"flightOfferIds,omitempty"`
 }
 
 type Remarks struct {
-	General []Remark `json:"general"`
+	General []Remark `json:"general,omitempty"`
 }
 
 type Remark struct {
-	SubType string `json:"subType"`
-	Text    string `json:"text"`
+	SubType string `json:"subType,omitempty"`
+	Text    string `json:"text,omitempty"`
 }
 
 type TicketingAgreement struct {
-	Option string `json:"option"`
-	Delay  string `json:"delay"`
+	Option string `json:"option,omitempty"`
+	Delay  string `json:"delay,omitempty"`
 }
 
 type AutomatedProcess struct {
-	Code     string `json:"code"`
-	Queue    Queue  `json:"queue"`
-	OfficeID string `json:"officeId"`
+	Code     string `json:"code,omitempty"`
+	Queue    Queue  `json:"queue,omitempty"`
+	OfficeID string `json:"officeId,omitempty"`
 }
 
 type Queue struct {
-	Number   string `json:"number"`
-	Category string `json:"category"`
+	Number   string `json:"number,omitempty"`
+	Category string `json:"category,omitempty"`
 }
