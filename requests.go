@@ -7,10 +7,10 @@ import (
 	"strings"
 )
 
-func (a *Amadeus) request(reqPayload, url string) ([]byte, error) {
+func (a *amadeus) request(reqPayload, url string) ([]byte, error) {
 
-	if a.Token.expired() {
-		err := a.getToken()
+	if a.token.expired() {
+		err := a.GetToken()
 		if err != nil {
 			return nil, err
 		}
@@ -23,7 +23,7 @@ func (a *Amadeus) request(reqPayload, url string) ([]byte, error) {
 		return nil, err
 	}
 
-	req.Header.Add("Authorization", a.Token.getBearer())
+	req.Header.Add("Authorization", a.token.getBearer())
 	req.Header.Add("Accept", "application/json")
 
 	client := http.Client{}
@@ -41,7 +41,7 @@ func (a *Amadeus) request(reqPayload, url string) ([]byte, error) {
 	return b, nil
 }
 
-func (a *Amadeus) FlightOffers(request FlightOffersSearchRequest) (FlightOffersSearchResponse, error) {
+func (a *amadeus) FlightOffers(request FlightOffersSearchRequest) (FlightOffersSearchResponse, error) {
 
 	var response FlightOffersSearchResponse
 
@@ -65,7 +65,7 @@ func (a *Amadeus) FlightOffers(request FlightOffersSearchRequest) (FlightOffersS
 	return response, nil
 }
 
-func (a *Amadeus) FlightPricing(request FlightOffersPriceRequest) (FlightOffersPriceResponse, error) {
+func (a *amadeus) FlightPricing(request FlightOffersPriceRequest) (FlightOffersPriceResponse, error) {
 
 	var response FlightOffersPriceResponse
 
@@ -89,7 +89,7 @@ func (a *Amadeus) FlightPricing(request FlightOffersPriceRequest) (FlightOffersP
 	return response, nil
 }
 
-func (a *Amadeus) FlightCreateOrder(request FlightCreateOrdersRequest) (FlightCreateOrdersResponse, error) {
+func (a *amadeus) FlightCreateOrder(request FlightCreateOrdersRequest) (FlightCreateOrdersResponse, error) {
 
 	var response FlightCreateOrdersResponse
 

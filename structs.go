@@ -1,5 +1,16 @@
 package amadeusgolang
 
+type ErrorResponse struct {
+	Code   int    `json:"code"`
+	Title  string `json:"title"`
+	Detail string `json:"detail"`
+	Source struct {
+		Pointer string `json:"pointer"`
+		Example string `json:"example"`
+	} `json:"source"`
+	Status int `json:"status"`
+}
+
 // FlightOffersSearchRequest
 
 // REQUEST
@@ -48,8 +59,9 @@ type SearchCriteria struct {
 // RESPONSE
 
 type FlightOffersSearchResponse struct {
-	Meta Meta          `json:"meta"`
-	Data []FlightOffer `json:"data"`
+	Meta   Meta            `json:"meta"`
+	Data   []FlightOffer   `json:"data"`
+	Errors []ErrorResponse `json:"errors"`
 }
 
 type Meta struct {
@@ -67,7 +79,8 @@ type FlightOffersPriceRequest struct {
 // RESPONSE
 
 type FlightOffersPriceResponse struct {
-	Data PricingData `json:"data"`
+	Data   PricingData     `json:"data"`
+	Errors []ErrorResponse `json:"errors"`
 }
 
 type PricingData struct {
@@ -86,7 +99,8 @@ type FlightCreateOrdersRequest struct {
 // RESPONSE
 
 type FlightCreateOrdersResponse struct {
-	Data OrderData `json:"data"`
+	Data   OrderData       `json:"data"`
+	Errors []ErrorResponse `json:"errors"`
 }
 
 type FlightOffer struct {
