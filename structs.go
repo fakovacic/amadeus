@@ -16,18 +16,18 @@ type ErrorResponse struct {
 // REQUEST
 
 type FlightOffersSearchRequest struct {
-	CurrencyCode       string               `json:"currencyCode,omitempty"`
-	OriginDestinations []OriginDestinations `json:"originDestinations,omitempty"`
-	Travelers          []Travelers          `json:"travelers,omitempty"`
-	Sources            []string             `json:"sources,omitempty"`
-	SearchCriteria     SearchCriteria       `json:"searchCriteria,omitempty"`
+	CurrencyCode       string              `json:"currencyCode,omitempty"`
+	OriginDestinations []OriginDestination `json:"originDestinations,omitempty"`
+	Travelers          []Travelers         `json:"travelers,omitempty"`
+	Sources            []string            `json:"sources,omitempty"`
+	SearchCriteria     SearchCriteria      `json:"searchCriteria,omitempty"`
 }
 
-type OriginDestinations struct {
-	ID                      string    `json:"id,omitempty"`
-	OriginLocationCode      string    `json:"originLocationCode,omitempty"`
-	DestinationLocationCode string    `json:"destinationLocationCode,omitempty"`
-	DepartureDateTimeRange  TimeRange `json:"departureDateTimeRange,omitempty"`
+type OriginDestination struct {
+	ID                     string    `json:"id,omitempty"`
+	OriginCode             string    `json:"originLocationCode,omitempty"`
+	DestinationCode        string    `json:"destinationLocationCode,omitempty"`
+	DepartureDateTimeRange TimeRange `json:"departureDateTimeRange,omitempty"`
 }
 
 type TimeRange struct {
