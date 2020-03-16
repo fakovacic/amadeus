@@ -212,10 +212,10 @@ type OrderData struct {
 	AssociatedRecords  []AssociatedRecord `json:"associatedRecords,omitempty"`
 	FlightOffers       []FlightOffer      `json:"flightOffers,omitempty"`
 	Travelers          []Traveler         `json:"travelers,omitempty"`
+	TicketingAgreement TicketingAgreement `json:"ticketingAgreement,omitempty"`
 	Contacts           []Contact          `json:"contacts,omitempty"`
 	Remarks            Remarks            `json:"remarks,omitempty"`
 	FormOfPayments     []FormOfPayments   `json:"formOfPayments,omitempty"`
-	TicketingAgreement TicketingAgreement `json:"ticketingAgreement,omitempty"`
 	AutomatedProcess   []AutomatedProcess `json:"automatedProcess,omitempty"`
 }
 
@@ -227,12 +227,12 @@ type AssociatedRecord struct {
 }
 
 type Traveler struct {
-	ID          string     `json:"id,omitempty"`
-	DateOfBirth string     `json:"dateOfBirth,omitempty"`
-	Name        Name       `json:"name,omitempty"`
-	Gender      string     `json:"gender,omitempty"`
-	Contact     Contact    `json:"contact,omitempty"`
-	Documents   []Document `json:"documents,omitempty,omitempty"`
+	ID          string          `json:"id,omitempty"`
+	DateOfBirth string          `json:"dateOfBirth,omitempty"`
+	Name        Name            `json:"name,omitempty"`
+	Gender      string          `json:"gender,omitempty"`
+	Contact     TravelerContact `json:"contact,omitempty"`
+	Documents   []Document      `json:"documents,omitempty,omitempty"`
 }
 
 type Name struct {
@@ -240,13 +240,18 @@ type Name struct {
 	LastName  string `json:"lastName,omitempty"`
 }
 
+type TravelerContact struct {
+	EmailAddress string  `json:"emailAddress,omitempty,omitempty"`
+	Phones       []Phone `json:"phones,omitempty,omitempty"`
+}
+
 type Contact struct {
 	AddresseeName AddresseeName `json:"addresseeName,omitempty"`
-	Address       Address       `json:"address,omitempty,omitempty"`
-	Purpose       string        `json:"purpose,omitempty"`
 	CompanyName   string        `json:"companyName,omitempty"`
+	Purpose       string        `json:"purpose,omitempty"`
 	Phones        []Phone       `json:"phones,omitempty,omitempty"`
 	EmailAddress  string        `json:"emailAddress,omitempty,omitempty"`
+	Address       Address       `json:"address,omitempty,omitempty"`
 }
 
 type AddresseeName struct {
