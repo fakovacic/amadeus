@@ -24,6 +24,7 @@ func (a *amadeus) request(reqPayload, url string) ([]byte, error) {
 	}
 
 	req.Header.Add("Authorization", a.token.getBearer())
+	req.Header.Add("Content-Type", "application/json")
 	req.Header.Add("Accept", "application/json")
 
 	client := http.Client{}
