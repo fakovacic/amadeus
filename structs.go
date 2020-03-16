@@ -73,7 +73,7 @@ type Meta struct {
 // REQUEST
 
 type FlightOffersPriceRequest struct {
-	Data FlightOffer `json:"data,omitempty"`
+	Data PricingData `json:"data,omitempty"`
 }
 
 // RESPONSE
