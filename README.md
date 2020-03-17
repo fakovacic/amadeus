@@ -50,6 +50,16 @@ s := FlightOffersSearchRequest{
 offersResp, err := amadeus.FlightOffers(s)
 ```
 
+- construct flight search request
+
+```
+s := NewSearchRequest("EUR", "GDS")
+s.Oneway("LON", "PAR", time.Now().AddDate(0, 5, 0).Format("2006-01-02"))
+s.AddTravelers(1, 0, 0)
+
+offersResp, err := amadeus.FlightOffers(s)
+```
+
 - check for pricing for first option in offers response
 
 
