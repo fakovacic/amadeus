@@ -1,4 +1,4 @@
-package amadeusgolang
+package amadeus
 
 import (
 	"fmt"
@@ -116,4 +116,16 @@ func TestToken(t *testing.T) {
 
 	}
 
+}
+
+func TestCheckToken(t *testing.T) {
+	t.Fatal("TODO")
+}
+
+func TestTokenExipry(t *testing.T) {
+	t.Fatal("TODO")
+}
+
+func TestTokenGetAuthorization(t *testing.T) {
+	t.Fatal("TODO")
 }
