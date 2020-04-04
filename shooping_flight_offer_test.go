@@ -1,22 +1,14 @@
 package amadeus
 
 import (
-	"fmt"
 	"os"
 	"testing"
 	"time"
-
-	"github.com/joho/godotenv"
 )
 
 func TestFlightOffers(t *testing.T) {
 
 	t.Run("TestFlightOffers", func(t *testing.T) {
-
-		err := godotenv.Load()
-		if err != nil {
-			fmt.Println("Not found .env file")
-		}
 
 		amadeus, err := New(os.Getenv("AMADEUS_CLIENT_ID"), os.Getenv("AMADEUS_CLIENT_SECRET"), os.Getenv("AMADEUS_ENV"))
 		if err != nil {
@@ -62,11 +54,6 @@ func TestFlightOffers(t *testing.T) {
 func TestFlightOffersOneway(t *testing.T) {
 
 	t.Run("TestFlightOffersOneway", func(t *testing.T) {
-
-		err := godotenv.Load()
-		if err != nil {
-			fmt.Println("Not found .env file")
-		}
 
 		amadeus, err := New(os.Getenv("AMADEUS_CLIENT_ID"), os.Getenv("AMADEUS_CLIENT_SECRET"), os.Getenv("AMADEUS_ENV"))
 		if err != nil {
