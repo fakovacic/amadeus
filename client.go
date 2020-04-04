@@ -250,7 +250,41 @@ type ErrorResponse struct {
 }
 
 // requests send POST request to api with given payload
-func (a *Amadeus) request(reqPayload, url string) ([]byte, error) {
+func (a *Amadeus) getRequest(url string, queryParams ...string) ([]byte, error) {
+
+	if a.token.expired() {
+		err := a.GetToken()
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	req, err := http.NewRequest("GET", url, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Authorization", a.token.getAuthorization())
+	req.Header.Add("Content-Type", "application/json")
+	req.Header.Add("Accept", "application/json")
+
+	client := http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+
+	b, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+
+	return b, nil
+}
+
+// requests send POST request to api with given payload
+func (a *Amadeus) postRequest(reqPayload, url string) ([]byte, error) {
 
 	if a.token.expired() {
 		err := a.GetToken()

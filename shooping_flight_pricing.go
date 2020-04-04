@@ -36,7 +36,7 @@ func (a *Amadeus) FlightPricing(request FlightOffersPriceRequest) (FlightOffersP
 		return response, err
 	}
 
-	resp, err := a.request(string(reqPayload), urlStr)
+	resp, err := a.postRequest(string(reqPayload), urlStr)
 	if err != nil {
 		return response, err
 	}
