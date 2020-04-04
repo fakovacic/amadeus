@@ -17,6 +17,7 @@
 #### Booking
 
  * POST /v1/booking/flight-orders
+ * GET /v1/booking/flight-orders/{orderID}
 
 ## Missing endpoints
 
@@ -29,10 +30,6 @@
  * GET /v1/shopping/flight-destinations
  * GET /v1/shopping/flight-dates
  * POST /v1/shopping/seatmaps
-
-#### Booking
-
- * GET /v1/booking/flight-orders/{orderID}
 
 #### Travel Insights
 

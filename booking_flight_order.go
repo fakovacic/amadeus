@@ -31,7 +31,29 @@ func (a *Amadeus) FlightCreateOrder(request FlightCreateOrdersRequest) (FlightCr
 		return response, err
 	}
 
-	resp, err := a.request(string(reqPayload), urlStr)
+	resp, err := a.postRequest(string(reqPayload), urlStr)
+	if err != nil {
+		return response, err
+	}
+
+	err = json.Unmarshal(resp, &response)
+	if err != nil {
+		return response, err
+	}
+
+	return response, nil
+}
+
+func (a *Amadeus) FlightGetOrder(orderID string) (FlightCreateOrdersResponse, error) {
+
+	var response FlightCreateOrdersResponse
+
+	urlStr, err := a.getURL(bookingFlightOrders)
+	if err != nil {
+		return response, err
+	}
+
+	resp, err := a.getRequest(urlStr + "/" + orderID)
 	if err != nil {
 		return response, err
 	}
