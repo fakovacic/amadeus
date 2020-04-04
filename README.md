@@ -69,7 +69,6 @@
  * GET /v1/booking/hotel-bookings
 
 
-
 ## Usage
 
 - get package 
