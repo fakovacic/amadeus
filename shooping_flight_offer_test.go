@@ -60,11 +60,15 @@ func TestFlightOffersOneway(t *testing.T) {
 			t.Fatal("not expected error while creating client", err)
 		}
 
-		s := NewSearchRequest("EUR", "GDS")
-		s.Oneway("LON", "PAR", time.Now().AddDate(0, 5, 0).Format("2006-01-02"))
-		s.AddTravelers(1, 0, 0)
+		s := NewSearchRequest("EUR", "GDS").
+			Oneway(
+				"LON",
+				"PAR",
+				time.Now().AddDate(0, 5, 0).Format("2006-01-02"),
+			).
+			AddTravelers(1, 0, 0)
 
-		resp, err := amadeus.FlightOffers(s)
+		resp, err := amadeus.FlightOffers(*s)
 		if err != nil {
 			t.Error("not expected error", err)
 		}

@@ -53,7 +53,7 @@ func (a *Amadeus) FlightGetOrder(orderID string) (FlightCreateOrdersResponse, er
 		return response, err
 	}
 
-	resp, err := a.getRequest(urlStr + "/" + orderID)
+	resp, err := a.getRequest(urlStr+"/"+orderID, []string{})
 	if err != nil {
 		return response, err
 	}

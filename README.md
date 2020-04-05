@@ -5,7 +5,7 @@
 ### Authentification
 
  * POST /v1/security/oauth2/token
- * GET /v1/security/oauth2/token/{token}
+ * GET  /v1/security/oauth2/token/{token}
 
 ### AIR
 
@@ -13,11 +13,12 @@
 
  * POST /v2/shopping/flight-offers
  * POST /v1/shopping/flight-offers/pricing
+ * GET  /v1/shopping/flight-destinations
 
 #### Booking
 
  * POST /v1/booking/flight-orders
- * GET /v1/booking/flight-orders/{orderID}
+ * GET  /v1/booking/flight-orders/{orderID}
 
 ## Missing endpoints
 
@@ -25,10 +26,9 @@
 
 #### Search & Shooping
 
- * GET /v1/shopping/flight-offers
- * GET /v2/shopping/flight-offers
- * GET /v1/shopping/flight-destinations
- * GET /v1/shopping/flight-dates
+ * GET  /v1/shopping/flight-offers
+ * GET  /v2/shopping/flight-offers
+ * GET  /v1/shopping/flight-dates
  * POST /v1/shopping/seatmaps
 
 #### Travel Insights
@@ -48,8 +48,8 @@
 #### Artificial Inteligence
 
  * POST /v1/shopping/flight-offers/prediction
- * GET /v1/travel/predictions/flight-delay
- * GET /v1/airport/predictions/on-time
+ * GET  /v1/travel/predictions/flight-delay
+ * GET  /v1/airport/predictions/on-time
 
 
 ### Hotel

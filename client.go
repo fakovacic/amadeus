@@ -30,21 +30,38 @@ const (
 	// use to aquire token which is used in all other request
 	auth = "/v1/security/oauth2/token"
 
-	// Shooping flight offers
+	///////////
+	// 	AIR	 //
+	///////////
+
+	//
+	// Shooping requests
+	//
+
+	// Flight Offers Search
 	// search for offers on given origin, destination, departure, passangers
 	shoopingFlightOffers = "/v2/shopping/flight-offers"
+
+	// Flight Inspiration Search
+	// check certain offer if is still active, response with additional data for offer
+	shoopingFlightDestinations = "/v1/shopping/flight-destinations"
 
 	// Shooping Flight offers pricing
 	// check certain offer if is still active, response with additional data for offer
 	shoopingFlightOffersPricing = "/v1/shopping/flight-offers/pricing"
+
+	//
+	// Booking requests
+	//
 
 	// Booking Flight orders
 	// create reservation for certain offer
 	bookingFlightOrders = "/v1/booking/flight-orders"
 )
 
-// Amadeus
-//
+// Amadeus main struct that holds sensitive data for communicating with api
+// key, secret and env for requesting token for authentification
+// which is used in all other requests
 type Amadeus struct {
 	key    string
 	secret string
@@ -238,6 +255,7 @@ func (a *Amadeus) CheckToken() error {
 	return nil
 }
 
+// ErrorResponse struct for error response from api
 type ErrorResponse struct {
 	Code   int    `json:"code,omitempty"`
 	Title  string `json:"title,omitempty"`
@@ -250,7 +268,7 @@ type ErrorResponse struct {
 }
 
 // requests send POST request to api with given payload
-func (a *Amadeus) getRequest(url string, queryParams ...string) ([]byte, error) {
+func (a *Amadeus) getRequest(url string, queryParams []string) ([]byte, error) {
 
 	if a.token.expired() {
 		err := a.GetToken()

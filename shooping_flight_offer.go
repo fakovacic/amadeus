@@ -62,9 +62,21 @@ type FlightOffersSearchResponse struct {
 }
 
 type Meta struct {
-	Count int `json:"count,omitempty"`
+	Count    int      `json:"count,omitempty"`
+	Currency string   `json:"currency,omitempty"`
+	Links    Links    `json:"links,omitempty"`
+	Defaults Defaults `json:"defaults,omitempty"`
 }
 
+type Defaults struct {
+	DepartureDate string `json:"departureDate,omitempty"`
+	OneWay        bool   `json:"oneWay,omitempty"`
+	Duration      string `json:"duration,omitempty"`
+	NonStop       bool   `json:"nonStop,omitempty"`
+	ViewBy        string `json:"viewBy,omitempty"`
+}
+
+// FlightOffers send request to api to retrive flight offers
 func (a *Amadeus) FlightOffers(request FlightOffersSearchRequest) (FlightOffersSearchResponse, error) {
 
 	var response FlightOffersSearchResponse
@@ -92,7 +104,8 @@ func (a *Amadeus) FlightOffers(request FlightOffersSearchRequest) (FlightOffersS
 	return response, nil
 }
 
-func NewSearchRequest(currency string, sources ...string) FlightOffersSearchRequest {
+// NewSearchRequest construct flight search request
+func NewSearchRequest(currency string, sources ...string) *FlightOffersSearchRequest {
 
 	var sR FlightOffersSearchRequest
 
@@ -102,13 +115,44 @@ func NewSearchRequest(currency string, sources ...string) FlightOffersSearchRequ
 		sR.Sources = sources
 	}
 
+	return &sR
+}
+
+// Oneway helper function to define oneway flight search
+func (sR *FlightOffersSearchRequest) Oneway(origin, destination, departureDate string) *FlightOffersSearchRequest {
+
+	sR.AddOriginDestination(origin, destination, departureDate)
+
 	return sR
+
 }
 
-func (sR *FlightOffersSearchRequest) Oneway(origin, destination, departureDate string) {
+// Return helper function to define return flight search
+func (sR *FlightOffersSearchRequest) Return(origin, destination, departureDate, returnDate string) *FlightOffersSearchRequest {
+
+	sR.AddOriginDestination(origin, destination, departureDate)
+
+	sR.AddOriginDestination(origin, destination, returnDate)
+
+	return sR
+
+}
+
+// AddOriginDestination add new destination to search request
+func (sR *FlightOffersSearchRequest) AddOriginDestination(origin, destination, departureDate string) *FlightOffersSearchRequest {
+
+	// check origin
+
+	// check destination
+
+	// check departureDate
+
+	originDestinationCount := len(sR.OriginDestinations)
+
+	originDestinationCount++
 
 	sR.OriginDestinations = append(sR.OriginDestinations, OriginDestination{
-		ID:              "1",
+		ID:              strconv.Itoa(originDestinationCount),
 		OriginCode:      origin,
 		DestinationCode: destination,
 		DepartureDateTimeRange: TimeRange{
@@ -116,82 +160,54 @@ func (sR *FlightOffersSearchRequest) Oneway(origin, destination, departureDate s
 		},
 	})
 
-}
-
-func (sR *FlightOffersSearchRequest) Return(origin, destination, departureDate, returnDate string) {
-
-	sR.OriginDestinations = append(sR.OriginDestinations, OriginDestination{
-		ID:              "1",
-		OriginCode:      origin,
-		DestinationCode: destination,
-		DepartureDateTimeRange: TimeRange{
-			Date: departureDate,
-		},
-	})
-
-	sR.OriginDestinations = append(sR.OriginDestinations, OriginDestination{
-		ID:              "2",
-		OriginCode:      destination,
-		DestinationCode: origin,
-		DepartureDateTimeRange: TimeRange{
-			Date: returnDate,
-		},
-	})
+	return sR
 
 }
 
-// ADD ORIGIN DESTINATION
-
-func (sR *FlightOffersSearchRequest) Multi(origin, destination, departureDate, returnDate string) {
-	//TODO
-}
-
-func (sR *FlightOffersSearchRequest) AddTravelers(adult, child, infant int) {
-
-	paxCount := 1
+// AddTravelers helper function to add more traveler type
+func (sR *FlightOffersSearchRequest) AddTravelers(adult, child, infant int) *FlightOffersSearchRequest {
 
 	if adult != 0 {
 
-		for i := 0; i <= adult; i++ {
-
-			sR.Travelers = append(sR.Travelers, Travelers{
-				ID:           strconv.Itoa(paxCount),
-				TravelerType: "ADULT",
-			})
-
-			paxCount++
-		}
+		sR.AddTravelersByType(adult, "ADULT")
 
 	}
 
 	if child != 0 {
 
-		for i := 0; i <= child; i++ {
-
-			sR.Travelers = append(sR.Travelers, Travelers{
-				ID:           strconv.Itoa(paxCount),
-				TravelerType: "CHILD",
-			})
-
-			paxCount++
-		}
+		sR.AddTravelersByType(child, "CHILD")
 
 	}
 
 	if infant != 0 {
 
-		for i := 0; i <= infant; i++ {
-
-			sR.Travelers = append(sR.Travelers, Travelers{
-				ID:           strconv.Itoa(paxCount),
-				TravelerType: "INFANT",
-			})
-
-			paxCount++
-		}
+		sR.AddTravelersByType(infant, "INFANT")
 
 	}
 
+	return sR
 }
 
-// Add traveler
+// AddTravelersByType add travelers of certain type
+// Traveler type: ADULT CHILD INFANT
+func (sR *FlightOffersSearchRequest) AddTravelersByType(no int, travelType string) *FlightOffersSearchRequest {
+
+	if no == 0 {
+		return sR
+	}
+
+	paxCount := len(sR.Travelers)
+
+	for i := 0; i <= no; i++ {
+
+		paxCount++
+
+		sR.Travelers = append(sR.Travelers, Travelers{
+			ID:           strconv.Itoa(paxCount),
+			TravelerType: travelType,
+		})
+
+	}
+
+	return sR
+}
