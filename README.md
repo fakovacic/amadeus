@@ -24,6 +24,12 @@
  * POST /v1/booking/flight-orders
  * GET  /v1/booking/flight-orders/{orderID}
  
+#### Travel Insights
+
+ * GET /v1/travel/analytics/air-traffic/traveled
+ * GET /v1/travel/analytics/air-traffic/booked
+ * GET /v1/travel/analytics/air-traffic/busiest-period
+
 ## Missing endpoints
 
 ### AIR
@@ -31,13 +37,7 @@
 #### Search & Shooping
 
  * POST /v1/shopping/seatmaps
-
-#### Travel Insights
-
- * GET /v1/travel/analytics/air-traffic/traveled
- * GET /v1/travel/analytics/air-traffic/booked
- * GET /v1/travel/analytics/air-traffic/busiest-period
-
+ 
 #### Utilities
 
  * GET /v1/reference-data/locations/airports
@@ -51,7 +51,6 @@
  * POST /v1/shopping/flight-offers/prediction
  * GET  /v1/travel/predictions/flight-delay
  * GET  /v1/airport/predictions/on-time
-
 
 ### Hotel
 
@@ -180,3 +179,6 @@ go get https://github.com/fakovacic/amadeus
     bookingRespData := bookingResp.(*BookingFlightOrderResponse)
 
 ```
+
+
+

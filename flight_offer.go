@@ -13,6 +13,20 @@ type ErrorResponse struct {
 	Status int `json:"status,omitempty"`
 }
 
+type Warnings struct {
+	Status int    `json:"status"`
+	Code   int    `json:"code"`
+	Title  string `json:"title"`
+	Detail string `json:"detail"`
+	Source Source `json:"source"`
+}
+
+type Source struct {
+	Pointer   string `json:"pointer"`
+	Parameter string `json:"parameter"`
+	Example   string `json:"example"`
+}
+
 type Data struct {
 	Type          string `json:"type,omitempty"`
 	Origin        string `json:"origin,omitempty"`

@@ -60,6 +60,15 @@ const (
 	bookingFlightOrdersURL = "/booking/flight-orders"
 
 	//
+	// Travel Insights
+	//
+
+	// Flight Busiest Traveling Period
+	// Flight Most Booked Destinations
+	// Flight Most Traveled Destinations
+	travelAnalyticsAirTrafficURL = "/travel/analytics/air-traffic"
+
+	//
 	// Requests && Response types
 	//
 
@@ -80,6 +89,9 @@ const (
 
 	// BookingFlightOrder //
 	BookingFlightOrder
+
+	// TravelAnalyticsAirTraffic //
+	TravelAnalyticsAirTraffic
 )
 
 // Amadeus main struct that holds sensitive data for communicating with api
@@ -200,6 +212,8 @@ func (a *Amadeus) NewRequest(req int) (Request, Response, error) {
 		return new(ShoppingFlightPricingRequest), new(ShoppingFlightPricingResponse), nil
 	case BookingFlightOrder:
 		return new(BookingFlightOrderRequest), new(BookingFlightOrderResponse), nil
+	case TravelAnalyticsAirTraffic:
+		return new(TravelAnalyticsAirTrafficRequest), new(TravelAnalyticsAirTrafficResponse), nil
 	default:
 		return nil, nil, errors.New("Request method %d not recognized")
 	}
