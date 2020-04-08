@@ -1,78 +1,8 @@
-# Go client for Amadeus REST API
+# Amadeus Golang SDK
 
 - still work in progress
 
-## Coverage
-
-### Authentification
-
- * POST /v1/security/oauth2/token
- * GET  /v1/security/oauth2/token/{token}
-
-### AIR
-
-#### Search & Shooping
-
- * GET  /v2/shopping/flight-offers
- * POST /v2/shopping/flight-offers
-
- * GET  /v1/shopping/flight-destinations
- * GET  /v1/shopping/flight-dates
-
- * POST /v1/shopping/flight-offers/pricing
-
-#### Booking
-
- * POST /v1/booking/flight-orders
- * GET  /v1/booking/flight-orders/{orderID}
- 
-#### Travel Insights
-
- * GET /v1/travel/analytics/air-traffic/traveled
- * GET /v1/travel/analytics/air-traffic/booked
- * GET /v1/travel/analytics/air-traffic/busiest-period
-
-#### Utilities
-
- * GET /v1/reference-data/locations/airports
- * GET /v1/reference-data/locations
- * GET /v1/reference-data/locations/{id}
-
- * GET /v2/reference-data/urls/checkin-links
- * GET /v1/reference-data/airlines
-
-## Missing endpoints
-
-### AIR
-
-#### Search & Shooping
-
- * POST /v1/shopping/seatmaps
-
-#### Artificial Inteligence
-
- * POST /v1/shopping/flight-offers/prediction
- * GET  /v1/travel/predictions/flight-delay
- * GET  /v1/airport/predictions/on-time
-
-### Hotel
-
-#### Search & Shooping
-
- * GET /v2/shopping/hotel-offers
- * GET /v2/shopping/hotel-offers/by-hotel
- * GET /v2/shopping/hotel-offers/{id}
-
-#### Travel Insights
-
- * GET /v2/e-reputation/hotel-sentiments
-
-#### Booking
-
- * GET /v1/booking/hotel-bookings
-
-
-## Usage
+## Installation
 
 - get package 
 
@@ -184,4 +114,71 @@ go get https://github.com/fakovacic/amadeus
 ```
 
 
+## Coverage
 
+### Authentification
+
+ * POST /v1/security/oauth2/token
+ * GET  /v1/security/oauth2/token/{token}
+
+### AIR
+
+#### Search & Shooping
+
+ * GET  /v2/shopping/flight-offers
+ * POST /v2/shopping/flight-offers
+
+ * GET  /v1/shopping/flight-destinations
+ * GET  /v1/shopping/flight-dates
+
+ * POST /v1/shopping/flight-offers/pricing
+
+#### Booking
+
+ * POST /v1/booking/flight-orders
+ * GET  /v1/booking/flight-orders/{orderID}
+ 
+#### Travel Insights
+
+ * GET /v1/travel/analytics/air-traffic/traveled
+ * GET /v1/travel/analytics/air-traffic/booked
+ * GET /v1/travel/analytics/air-traffic/busiest-period
+
+#### Utilities
+
+ * GET /v1/reference-data/locations/airports
+ * GET /v1/reference-data/locations
+ * GET /v1/reference-data/locations/{id}
+
+ * GET /v2/reference-data/urls/checkin-links
+ * GET /v1/reference-data/airlines
+
+## Missing endpoints
+
+### AIR
+
+#### Search & Shooping
+
+ * POST /v1/shopping/seatmaps
+
+#### Artificial Inteligence
+
+ * POST /v1/shopping/flight-offers/prediction
+ * GET  /v1/travel/predictions/flight-delay
+ * GET  /v1/airport/predictions/on-time
+
+### Hotel
+
+#### Search & Shooping
+
+ * GET /v2/shopping/hotel-offers
+ * GET /v2/shopping/hotel-offers/by-hotel
+ * GET /v2/shopping/hotel-offers/{id}
+
+#### Travel Insights
+
+ * GET /v2/e-reputation/hotel-sentiments
+
+#### Booking
+
+ * POST /v1/booking/hotel-bookings
