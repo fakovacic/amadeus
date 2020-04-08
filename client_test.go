@@ -1,11 +1,19 @@
 package amadeus
 
 import (
+	"fmt"
 	"os"
 	"testing"
+
+	"github.com/joho/godotenv"
 )
 
 func TestNew(t *testing.T) {
+
+	err := godotenv.Load()
+	if err != nil {
+		fmt.Println("Not found .env file")
+	}
 
 	tt := []struct {
 		Name     string
@@ -58,6 +66,11 @@ func TestNew(t *testing.T) {
 
 func TestToken(t *testing.T) {
 
+	err := godotenv.Load()
+	if err != nil {
+		fmt.Println("Not found .env file")
+	}
+
 	tt := []struct {
 		Name     string
 		Key      string
@@ -105,6 +118,7 @@ func TestToken(t *testing.T) {
 
 }
 
+/*
 func TestCheckToken(t *testing.T) {
 	t.Fatal("TODO")
 }
@@ -116,3 +130,4 @@ func TestTokenExipry(t *testing.T) {
 func TestTokenGetAuthorization(t *testing.T) {
 	t.Fatal("TODO")
 }
+*/

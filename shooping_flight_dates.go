@@ -7,8 +7,9 @@ import (
 	"strings"
 )
 
-type ShoppingFlightDestinationRequest struct {
+type ShoppingFlightDatesRequest struct {
 	Origin            string `json:"origin"`
+	Destination       string `json:"destination"`
 	DepartureDateFrom string `json:"departureDateFrom"`
 	DepartureDateTo   string `json:"departureDateTo"`
 	OneWay            bool   `json:"oneWay"`
@@ -17,21 +18,29 @@ type ShoppingFlightDestinationRequest struct {
 	NonStop           bool   `json:"nonStop"`
 
 	// ViewBy possible options
-	// DATE, DESTINATION, DURATION, WEEK, or COUNTRY.
+	// DATE, DURATION,or WEEK.
 	ViewBy   string `json:"viewBy"`
 	MaxPrice int    `json:"maxPrice"`
 }
 
 // SetOrigin set origin
-func (dR *ShoppingFlightDestinationRequest) SetOrigin(origin string) *ShoppingFlightDestinationRequest {
+func (dR *ShoppingFlightDatesRequest) SetOrigin(origin string) *ShoppingFlightDatesRequest {
 
 	dR.Origin = origin
 
 	return dR
 }
 
+// SetDestination set destination
+func (dR *ShoppingFlightDatesRequest) SetDestination(destination string) *ShoppingFlightDatesRequest {
+
+	dR.Destination = destination
+
+	return dR
+}
+
 // IsOneWay set oneway request
-func (dR *ShoppingFlightDestinationRequest) IsOneWay(oneWay bool) *ShoppingFlightDestinationRequest {
+func (dR *ShoppingFlightDatesRequest) IsOneWay(oneWay bool) *ShoppingFlightDatesRequest {
 
 	if oneWay {
 		dR.OneWay = true
@@ -41,7 +50,7 @@ func (dR *ShoppingFlightDestinationRequest) IsOneWay(oneWay bool) *ShoppingFligh
 }
 
 // IsNonStop set nonstop request
-func (dR *ShoppingFlightDestinationRequest) IsNonStop(nonStop bool) *ShoppingFlightDestinationRequest {
+func (dR *ShoppingFlightDatesRequest) IsNonStop(nonStop bool) *ShoppingFlightDatesRequest {
 
 	if nonStop {
 		dR.NonStop = true
@@ -51,7 +60,7 @@ func (dR *ShoppingFlightDestinationRequest) IsNonStop(nonStop bool) *ShoppingFli
 }
 
 // AddDeparture add range of departure dates
-func (dR *ShoppingFlightDestinationRequest) AddDeparture(from, to string) *ShoppingFlightDestinationRequest {
+func (dR *ShoppingFlightDatesRequest) AddDeparture(from, to string) *ShoppingFlightDatesRequest {
 
 	dR.DepartureDateFrom = from
 	dR.DepartureDateTo = to
@@ -60,7 +69,7 @@ func (dR *ShoppingFlightDestinationRequest) AddDeparture(from, to string) *Shopp
 }
 
 // AddDuration add range of duration in days
-func (dR *ShoppingFlightDestinationRequest) AddDuration(from, to string) *ShoppingFlightDestinationRequest {
+func (dR *ShoppingFlightDatesRequest) AddDuration(from, to string) *ShoppingFlightDatesRequest {
 
 	dR.DurationFrom = from
 	dR.DurationTo = to
@@ -69,7 +78,7 @@ func (dR *ShoppingFlightDestinationRequest) AddDuration(from, to string) *Shoppi
 }
 
 // AddViewBy add grouping option of returned offers
-func (dR *ShoppingFlightDestinationRequest) AddViewBy(view string) *ShoppingFlightDestinationRequest {
+func (dR *ShoppingFlightDatesRequest) AddViewBy(view string) *ShoppingFlightDatesRequest {
 
 	// check if one of values
 	// DATE, DESTINATION, DURATION, WEEK, or COUNTRY.
@@ -80,7 +89,7 @@ func (dR *ShoppingFlightDestinationRequest) AddViewBy(view string) *ShoppingFlig
 }
 
 // AddMaxPrice add max price of retured offers
-func (dR *ShoppingFlightDestinationRequest) AddMaxPrice(price int) *ShoppingFlightDestinationRequest {
+func (dR *ShoppingFlightDatesRequest) AddMaxPrice(price int) *ShoppingFlightDatesRequest {
 
 	dR.MaxPrice = price
 
@@ -88,10 +97,10 @@ func (dR *ShoppingFlightDestinationRequest) AddMaxPrice(price int) *ShoppingFlig
 }
 
 // GetURL returned key=value format for request on api
-func (dR ShoppingFlightDestinationRequest) GetURL(baseURL, reqType string) string {
+func (dR ShoppingFlightDatesRequest) GetURL(baseURL, reqType string) string {
 
 	// set request url
-	url := shoopingFlightDestinationsURL
+	url := shoopingFlightDatesURL
 
 	// add version
 	switch reqType {
@@ -103,6 +112,7 @@ func (dR ShoppingFlightDestinationRequest) GetURL(baseURL, reqType string) strin
 		queryParams := []string{}
 
 		queryParams = append(queryParams, "origin="+dR.Origin)
+		queryParams = append(queryParams, "destination="+dR.Destination)
 
 		if dR.OneWay {
 			queryParams = append(queryParams, "oneway=true")
@@ -138,18 +148,18 @@ func (dR ShoppingFlightDestinationRequest) GetURL(baseURL, reqType string) strin
 
 // GetBody prepare struct values to slice
 // returned key=value format for request on api
-func (dR ShoppingFlightDestinationRequest) GetBody(reqType string) io.Reader {
+func (dR ShoppingFlightDatesRequest) GetBody(reqType string) io.Reader {
 	return nil
 }
 
-type ShoppingFlightDestinationResponse struct {
-	Data   []Data          `json:"data,omitempty"`
-	Meta   Meta            `json:"meta,omitempty"`
+type ShoppingFlightDatesResponse struct {
+	Meta   Meta            `json:"meta"`
+	Data   []Data          `json:"data"`
 	Errors []ErrorResponse `json:"errors,omitempty"`
 }
 
 // Decode implement Response interface
-func (dR *ShoppingFlightDestinationResponse) Decode(rsp []byte) error {
+func (dR *ShoppingFlightDatesResponse) Decode(rsp []byte) error {
 
 	err := json.Unmarshal(rsp, &dR)
 	if err != nil {

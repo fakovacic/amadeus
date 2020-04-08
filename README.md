@@ -11,24 +11,25 @@
 
 #### Search & Shooping
 
+ * GET  /v2/shopping/flight-offers
  * POST /v2/shopping/flight-offers
- * POST /v1/shopping/flight-offers/pricing
+
  * GET  /v1/shopping/flight-destinations
+ * GET  /v1/shopping/flight-dates
+
+ * POST /v1/shopping/flight-offers/pricing
 
 #### Booking
 
  * POST /v1/booking/flight-orders
  * GET  /v1/booking/flight-orders/{orderID}
-
+ 
 ## Missing endpoints
 
 ### AIR
 
 #### Search & Shooping
 
- * GET  /v1/shopping/flight-offers
- * GET  /v2/shopping/flight-offers
- * GET  /v1/shopping/flight-dates
  * POST /v1/shopping/seatmaps
 
 #### Travel Insights
@@ -74,7 +75,7 @@
 - get package 
 
 ```
-go get https://github.com/fakovacic/amadeus-golang
+go get https://github.com/fakovacic/amadeus
 ```
 
 ### Flight order creation
@@ -83,7 +84,14 @@ go get https://github.com/fakovacic/amadeus-golang
 
 ```
 
-amadeus, err := New(os.Getenv("AMADEUS_CLIENT_ID"), os.Getenv("AMADEUS_CLIENT_SECRET"), os.Getenv("AMADEUS_ENV"))
+    amadeus, err := New(
+        os.Getenv("AMADEUS_CLIENT_ID"),
+        os.Getenv("AMADEUS_CLIENT_SECRET"),
+        os.Getenv("AMADEUS_ENV"),
+    )
+    if err != nil {
+        t.Fatal("not expected error while creating client", err)
+    }
 
 ```
 
@@ -91,124 +99,84 @@ amadeus, err := New(os.Getenv("AMADEUS_CLIENT_ID"), os.Getenv("AMADEUS_CLIENT_SE
 
 ```
 
-s := FlightOffersSearchRequest{
-    CurrencyCode: "EUR",
-    OriginDestinations: []OriginDestination{
-        OriginDestination{
-            ID:              "1",
-            OriginCode:      "LON",
-            DestinationCode: "PAR",
-            DepartureDateTimeRange: TimeRange{
-                Date: time.Now().AddDate(0, 5, 0).Format("2006-01-02"),
-            },
-        },
-    },
-    Travelers: []Travelers{
-        Travelers{
-            ID:           "1",
-            TravelerType: "ADULT",
-        },
-    },
-    Sources: []string{
-        "GDS",
-    },
-}
+    // get offer flights request&response
+    offerReq, offerResp, err := amadeus.NewRequest(ShoppingFlightOffers)
 
-offersResp, err := amadeus.FlightOffers(s)
-```
+    // set offer flights params
+    offerReq.(*ShoppingFlightOffersRequest).
+        SetCurrency("EUR").
+        SetSources("GDS").
+        Oneway(
+            "FRA",
+            "BER",
+            time.Now().AddDate(0, 5, 0).Format("2006-01-02"),
+        ).
+        AddTravelers(1, 0, 0)
 
-- construct flight search request
+    // send request
+    err = amadeus.Do(offerReq, &offerResp, "POST")
 
-```
-s := NewSearchRequest("EUR", "GDS")
-s.Oneway("LON", "PAR", time.Now().AddDate(0, 5, 0).Format("2006-01-02"))
-s.AddTravelers(1, 0, 0)
-
-offersResp, err := amadeus.FlightOffers(s)
-```
-
-- check for pricing for first option in offers response
-
-
-```
-p := FlightOffersPriceRequest{
-    Data: PricingData{
-        Type: "flight-offers-pricing",
-        FlightOffers: []FlightOffer{
-            offersResp.Data[0],
-        },
-    },
-}
-
-pricingResp, err := amadeus.FlightPricing(p)
-```
-
-- create booking/order for priced option
-
-```
-o := FlightCreateOrdersRequest{
-    Data: OrderData{
-        Type: "flight-order",
-        FlightOffers: []FlightOffer{
-            pricingResp.Data.FlightOffers[0],
-        },
-        Travelers: []Traveler{
-            Traveler{
-                ID:          "1",
-                DateOfBirth: "1980-02-15",
-                Name: Name{
-                    FirstName: "Foo",
-                    LastName:  "Bar",
-                },
-                Gender: "MALE",
-                Contact: TravelerContact{
-                    EmailAddress: "foo@bar.com",
-                    Phones: []Phone{
-                        Phone{
-                            DeviceType:         "MOBILE",
-                            CountryCallingCode: "33",
-                            Number:             "480080072",
-                        },
-                    },
-                },
-            },
-        },
-        TicketingAgreement: TicketingAgreement{
-            Option: "DELAY_TO_CANCEL",
-            Delay:  "6D",
-        },
-        Contacts: []Contact{
-            Contact{
-                AddresseeName: AddresseeName{
-                    FirstName: "Foo",
-                    LastName:  "Bar",
-                },
-                CompanyName: "TESTING",
-                Purpose:     "STANDARD",
-                Phones: []Phone{
-                    Phone{
-                        DeviceType:         "MOBILE",
-                        CountryCallingCode: "33",
-                        Number:             "480080072",
-                    },
-                },
-                EmailAddress: "foo@bar.com",
-                Address: Address{
-                    Lines: []string{
-                        "Street 25",
-                    },
-                    PostalCode:  "45453",
-                    CityName:    "Madrid",
-                    CountryCode: "ES",
-                },
-            },
-        },
-    },
-}
-
-orderResp, err := amadeus.FlightCreateOrder(o)
+    // get response
+    offerRespData := offerResp.(*ShoppingFlightOffersResponse)
 
 ```
 
+- check pricing for first option in offers response
 
 
+```
+    // get pricing request&response
+    pricingReq, pricingResp, err := amadeus.NewRequest(ShoppingFlightPricing)
+
+    // add offer from flight offers response
+    pricingReq.(*ShoppingFlightPricingRequest).AddOffer(
+        offerRespData.GetOffer(0),
+    )
+
+    // send request
+    err = amadeus.Do(pricingReq, &pricingResp, "POST")
+
+    // get response
+    pricingRespData := pricingResp.(*ShoppingFlightPricingResponse)
+
+```
+
+- create booking order for priced option
+
+```
+    // get booking request
+    bookingReq, bookingResp, err := amadeus.NewRequest(BookingFlightOrder)
+
+    // add offer from flight pricing response
+    bookingReq.(*BookingFlightOrderRequest).AddOffers(
+        pricingRespData.GetOffers(),
+    ).AddTicketingAgreement("DELAY_TO_CANCEL", "6D")
+
+    // add traveler
+    bookingReq.(*BookingFlightOrderRequest).AddTraveler(
+        bookingReq.(*BookingFlightOrderRequest).
+            NewTraveler(
+                "Foo", "Bar", "MALE", "1990-02-15",
+            ).
+            AddEmail("foo@bar.com").
+            AddMobile("33", "480080072"),
+    )
+
+    // add contact
+    bookingReq.(*BookingFlightOrderRequest).AddContact(
+        bookingReq.(*BookingFlightOrderRequest).
+            NewContact(
+                "Foo", "Bar", "TESTING", "STANDARD",
+            ).
+            AddEmail("foo@bar.com").
+            AddMobile("33", "480080072").
+            AddAddress("ES", "Madrid", "45453", "Street 25"),
+    )
+
+    // send request
+    err = amadeus.Do(bookingReq, &bookingResp, "POST")
+
+    // get flight booking response
+    bookingRespData := bookingResp.(*BookingFlightOrderResponse)
+
+```

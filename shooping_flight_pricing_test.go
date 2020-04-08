@@ -1,68 +1,81 @@
 package amadeus
 
 import (
+	"fmt"
 	"os"
 	"testing"
 	"time"
+
+	"github.com/joho/godotenv"
 )
 
-func TestFlightPricing(t *testing.T) {
+func TestShoppingFlightPricingRequest(t *testing.T) {
 
-	t.Run("TestFlightPricing", func(t *testing.T) {
+	err := godotenv.Load()
+	if err != nil {
+		fmt.Println("Not found .env file")
+	}
 
-		amadeus, err := New(os.Getenv("AMADEUS_CLIENT_ID"), os.Getenv("AMADEUS_CLIENT_SECRET"), os.Getenv("AMADEUS_ENV"))
+	t.Run("TestShoppingFlightPricingRequest", func(t *testing.T) {
+
+		// create client
+		amadeus, err := New(
+			os.Getenv("AMADEUS_CLIENT_ID"),
+			os.Getenv("AMADEUS_CLIENT_SECRET"),
+			os.Getenv("AMADEUS_ENV"),
+		)
 		if err != nil {
 			t.Fatal("not expected error while creating client", err)
 		}
 
-		s := FlightOffersSearchRequest{
-			CurrencyCode: "EUR",
-			OriginDestinations: []OriginDestination{
-				OriginDestination{
-					ID:              "1",
-					OriginCode:      "LON",
-					DestinationCode: "PAR",
-					DepartureDateTimeRange: TimeRange{
-						Date: time.Now().AddDate(0, 5, 0).Format("2006-01-02"),
-					},
-				},
-			},
-			Travelers: []Travelers{
-				Travelers{
-					ID:           "1",
-					TravelerType: "ADULT",
-				},
-			},
-			Sources: []string{
-				"GDS",
-			},
-		}
+		// get offer flights request
+		offerReq, offerResp, err := amadeus.NewRequest(ShoppingFlightOffers)
 
-		offersResp, err := amadeus.FlightOffers(s)
+		// set offer flights params
+		offerReq.(*ShoppingFlightOffersRequest).
+			SetCurrency("EUR").
+			SetSources("GDS").
+			Oneway(
+				"LON",
+				"PAR",
+				time.Now().AddDate(0, 5, 0).Format("2006-01-02"),
+			).
+			AddTravelers(1, 0, 0)
+
+		// send request flight offers
+		err = amadeus.Do(offerReq, &offerResp, "POST")
 		if err != nil {
-			t.Fatal("not expected error", err)
+			t.Fatal("not expected error while geting flight offers data", err)
 		}
 
-		if offersResp.Meta.Count == 0 {
+		// get flight offers response
+		offerRespData := offerResp.(*ShoppingFlightOffersResponse)
+
+		// check if data is returned
+		if len(offerRespData.Data) == 0 {
 			t.Fatal("return 0 results in offer search request")
 		}
 
-		p := FlightOffersPriceRequest{
-			Data: PricingData{
-				Type: "flight-offers-pricing",
-				FlightOffers: []FlightOffer{
-					offersResp.Data[0],
-				},
-			},
-		}
+		// get pricing request
+		pricingReq, pricingResp, err := amadeus.NewRequest(ShoppingFlightPricing)
 
-		pricingResp, err := amadeus.FlightPricing(p)
+		// add offer from flight offers response
+		pricingReq.(*ShoppingFlightPricingRequest).AddOffer(
+			offerRespData.GetOffer(1),
+		)
+
+		// send request for flight pricing
+		err = amadeus.Do(pricingReq, &pricingResp, "POST")
 		if err != nil {
-			t.Error("not expected error", err)
+			t.Fatal("not expected error while geting flight offers data", err)
 		}
 
-		if len(pricingResp.Data.FlightOffers) == 0 {
-			t.Error("return 0 results in price request")
+		// get flight pricing response
+		pricingRespData := pricingResp.(*ShoppingFlightPricingResponse)
+
+		// check if reponse exist
+		if len(pricingRespData.Data.FlightOffers) == 0 {
+			t.Error("return 0 results in offer search request")
 		}
 
 	})

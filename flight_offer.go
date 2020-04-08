@@ -1,8 +1,35 @@
 package amadeus
 
-// FlightOffer
+// Generic structs
 
-// RESPONSE
+type ErrorResponse struct {
+	Code   int    `json:"code,omitempty"`
+	Title  string `json:"title,omitempty"`
+	Detail string `json:"detail,omitempty"`
+	Source struct {
+		Pointer string `json:"pointer,omitempty"`
+		Example string `json:"example,omitempty"`
+	} `json:"source,omitempty"`
+	Status int `json:"status,omitempty"`
+}
+
+type Data struct {
+	Type          string `json:"type,omitempty"`
+	Origin        string `json:"origin,omitempty"`
+	Destination   string `json:"destination,omitempty"`
+	DepartureDate string `json:"departureDate,omitempty"`
+	ReturnDate    string `json:"returnDate,omitempty"`
+	Price         Price  `json:"price,omitempty"`
+	Links         Links  `json:"links,omitempty"`
+}
+
+type Links struct {
+	FlightDates  string `json:"flightDates,omitempty"`
+	FlightOffers string `json:"flightOffers,omitempty"`
+	Self         string `json:"self,omitempty"`
+}
+
+// FlightOffer
 
 type FlightOffer struct {
 	Type                     string            `json:"type,omitempty"`
@@ -54,7 +81,7 @@ type Operating struct {
 }
 
 type Co2Emission struct {
-	Weight     string `json:"weight,omitempty"`
+	Weight     int    `json:"weight,omitempty"`
 	WeightUnit string `json:"weightUnit,omitempty"`
 	Cabin      string `json:"cabin,omitempty"`
 }
@@ -103,120 +130,4 @@ type FareDetailsBySegment struct {
 
 type IncludedCheckedBags struct {
 	Quantity int `json:"quantity,omitempty"`
-}
-
-// CreateOrder specific
-
-type OrderData struct {
-	ID                 string             `json:"id,omitempty"`
-	Type               string             `json:"type,omitempty"`
-	AssociatedRecords  []AssociatedRecord `json:"associatedRecords,omitempty"`
-	FlightOffers       []FlightOffer      `json:"flightOffers,omitempty"`
-	Travelers          []Traveler         `json:"travelers,omitempty"`
-	TicketingAgreement TicketingAgreement `json:"ticketingAgreement,omitempty"`
-	Contacts           []Contact          `json:"contacts,omitempty"`
-	Remarks            Remarks            `json:"remarks,omitempty"`
-	FormOfPayments     []FormOfPayments   `json:"formOfPayments,omitempty"`
-	AutomatedProcess   []AutomatedProcess `json:"automatedProcess,omitempty"`
-}
-
-type AssociatedRecord struct {
-	Reference        string `json:"reference,omitempty"`
-	CreationDate     string `json:"creationDate,omitempty"`
-	OriginSystemCode string `json:"originSystemCode,omitempty"`
-	FlightOfferID    string `json:"flightOfferId,omitempty"`
-}
-
-type Traveler struct {
-	ID          string          `json:"id,omitempty"`
-	DateOfBirth string          `json:"dateOfBirth,omitempty"`
-	Name        Name            `json:"name,omitempty"`
-	Gender      string          `json:"gender,omitempty"`
-	Contact     TravelerContact `json:"contact,omitempty"`
-	Documents   []Document      `json:"documents,omitempty,omitempty"`
-}
-
-type Name struct {
-	FirstName string `json:"firstName,omitempty"`
-	LastName  string `json:"lastName,omitempty"`
-}
-
-type TravelerContact struct {
-	EmailAddress string  `json:"emailAddress,omitempty,omitempty"`
-	Phones       []Phone `json:"phones,omitempty,omitempty"`
-}
-
-type Contact struct {
-	AddresseeName AddresseeName `json:"addresseeName,omitempty"`
-	CompanyName   string        `json:"companyName,omitempty"`
-	Purpose       string        `json:"purpose,omitempty"`
-	Phones        []Phone       `json:"phones,omitempty,omitempty"`
-	EmailAddress  string        `json:"emailAddress,omitempty,omitempty"`
-	Address       Address       `json:"address,omitempty,omitempty"`
-}
-
-type AddresseeName struct {
-	FirstName string `json:"firstName,omitempty"`
-	LastName  string `json:"lastName,omitempty"`
-}
-type Address struct {
-	Lines       []string `json:"lines,omitempty"`
-	PostalCode  string   `json:"postalCode,omitempty"`
-	CountryCode string   `json:"countryCode,omitempty"`
-	CityName    string   `json:"cityName,omitempty"`
-	StateName   string   `json:"stateName,omitempty"`
-	PostalBox   string   `json:"postalBox,omitempty"`
-}
-
-type Phone struct {
-	DeviceType         string `json:"deviceType,omitempty"`
-	CountryCallingCode string `json:"countryCallingCode,omitempty"`
-	Number             string `json:"number,omitempty"`
-}
-
-type Document struct {
-	DocumentType     string `json:"documentType,omitempty"`
-	BirthPlace       string `json:"birthPlace,omitempty"`
-	IssuanceLocation string `json:"issuanceLocation,omitempty"`
-	IssuanceDate     string `json:"issuanceDate,omitempty"`
-	Number           string `json:"number,omitempty"`
-	ExpiryDate       string `json:"expiryDate,omitempty"`
-	IssuanceCountry  string `json:"issuanceCountry,omitempty"`
-	ValidityCountry  string `json:"validityCountry,omitempty"`
-	Nationality      string `json:"nationality,omitempty"`
-	Holder           bool   `json:"holder,omitempty"`
-}
-
-type FormOfPayments struct {
-	Other Other `json:"other,omitempty"`
-}
-
-type Other struct {
-	Method         string   `json:"method,omitempty"`
-	FlightOfferIds []string `json:"flightOfferIds,omitempty"`
-}
-
-type Remarks struct {
-	General []Remark `json:"general,omitempty"`
-}
-
-type Remark struct {
-	SubType string `json:"subType,omitempty"`
-	Text    string `json:"text,omitempty"`
-}
-
-type TicketingAgreement struct {
-	Option string `json:"option,omitempty"`
-	Delay  string `json:"delay,omitempty"`
-}
-
-type AutomatedProcess struct {
-	Code     string `json:"code,omitempty"`
-	Queue    Queue  `json:"queue,omitempty"`
-	OfficeID string `json:"officeId,omitempty"`
-}
-
-type Queue struct {
-	Number   string `json:"number,omitempty"`
-	Category string `json:"category,omitempty"`
 }

@@ -1,13 +1,10 @@
 package amadeus
 
 import (
-	"encoding/json"
 	"errors"
+	"io"
 	"io/ioutil"
 	"net/http"
-	"net/url"
-	"strings"
-	"time"
 )
 
 const (
@@ -17,10 +14,10 @@ const (
 	//
 
 	// Testing API url
-	test = "https://test.api.amadeus.com"
+	testURL = "https://test.api.amadeus.com"
 
 	// Production API url
-	production = "https://api.amadeus.com"
+	productionURL = "https://api.amadeus.com"
 
 	//
 	// Requests URLs
@@ -28,40 +25,65 @@ const (
 
 	// Authentification url
 	// use to aquire token which is used in all other request
-	auth = "/v1/security/oauth2/token"
+	securityOAuth2TokenURL = "/v1/security/oauth2/token"
 
 	///////////
 	// 	AIR	 //
 	///////////
 
 	//
-	// Shooping requests
+	// Shooping
 	//
 
 	// Flight Offers Search
 	// search for offers on given origin, destination, departure, passangers
-	shoopingFlightOffers = "/v2/shopping/flight-offers"
+	shoopingFlightOffersURL = "/shopping/flight-offers"
 
 	// Flight Inspiration Search
-	// check certain offer if is still active, response with additional data for offer
-	shoopingFlightDestinations = "/v1/shopping/flight-destinations"
+	//
+	shoopingFlightDestinationsURL = "/shopping/flight-destinations"
+
+	// Flight Cheapest Date Search
+	//
+	shoopingFlightDatesURL = "/shopping/flight-dates"
 
 	// Shooping Flight offers pricing
 	// check certain offer if is still active, response with additional data for offer
-	shoopingFlightOffersPricing = "/v1/shopping/flight-offers/pricing"
+	shoopingFlightOffersPricingURL = "/shopping/flight-offers/pricing"
 
 	//
-	// Booking requests
+	// Booking
 	//
 
 	// Booking Flight orders
 	// create reservation for certain offer
-	bookingFlightOrders = "/v1/booking/flight-orders"
+	bookingFlightOrdersURL = "/booking/flight-orders"
+
+	//
+	// Requests && Response types
+	//
+
+	// ShoppingFlightDestination //
+	ShoppingFlightDestination = iota
+
+	// ShoppingFlightDates //
+	ShoppingFlightDates
+
+	// ShoppingFlightOffers //
+	ShoppingFlightOffers
+
+	// ShoppingSeatmaps //
+	ShoppingSeatmaps
+
+	// ShoppingFlightPricing //
+	ShoppingFlightPricing
+
+	// BookingFlightOrder //
+	BookingFlightOrder
 )
 
 // Amadeus main struct that holds sensitive data for communicating with api
-// key, secret and env for requesting token for authentification
-// which is used in all other requests
+// key, secret and env for requesting token for authentification which is used in all other requests
 type Amadeus struct {
 	key    string
 	secret string
@@ -70,8 +92,7 @@ type Amadeus struct {
 }
 
 // New creates new amadeus client for given Key, Secret & Environment
-// Key & Secret are created on amadeus developers page
-// https://developers.amadeus.com/register
+// Key & Secret are created on amadeus developers page https://developers.amadeus.com/register
 func New(Key, Secret, ENV string) (*Amadeus, error) {
 
 	var (
@@ -143,232 +164,104 @@ func (a *Amadeus) setENV(value string) error {
 
 // getURL return full url for given endpoint
 // checks for environment base url and add endpoint url
-func (a Amadeus) getURL(endpoint string) (string, error) {
+func (a Amadeus) getBaseURL() (string, error) {
 
 	switch a.env {
 	case "TEST":
-		return test + endpoint, nil
+		return testURL, nil
 	case "PRODUCTION":
-		return production + endpoint, nil
+		return productionURL, nil
 	}
 
 	return "", errors.New("not defined valid environment")
 }
 
-// GetToken send request to amadeus api  aquire token
-func (a *Amadeus) GetToken() error {
+type Request interface {
+	GetURL(baseURL, reqType string) string
+	GetBody(version string) io.Reader
+}
 
-	// prepare request body
-	body := url.Values{}
-	body.Set("client_id", a.key)
-	body.Set("client_secret", a.secret)
-	body.Set("grant_type", "client_credentials")
+type Response interface {
+	Decode(rsp []byte) error
+}
 
-	// get url string
-	urlStr, err := a.getURL(auth)
+// NewRequest return new valid Request interface
+func (a *Amadeus) NewRequest(req int) (Request, Response, error) {
+	switch req {
+	case ShoppingFlightDestination:
+		return new(ShoppingFlightDestinationRequest), new(ShoppingFlightDestinationResponse), nil
+	case ShoppingFlightDates:
+		return new(ShoppingFlightDatesRequest), new(ShoppingFlightDatesResponse), nil
+	case ShoppingFlightOffers:
+		return new(ShoppingFlightOffersRequest), new(ShoppingFlightOffersResponse), nil
+	// case ShoppingSeatmaps:
+	// 	return new(ShoppingSeatmapsRequest), new(ShoppingSeatmapsResponse) nil
+	case ShoppingFlightPricing:
+		return new(ShoppingFlightPricingRequest), new(ShoppingFlightPricingResponse), nil
+	case BookingFlightOrder:
+		return new(BookingFlightOrderRequest), new(BookingFlightOrderResponse), nil
+	default:
+		return nil, nil, errors.New("Request method %d not recognized")
+	}
+}
+
+// Do send request to api
+func (a *Amadeus) Do(req Request, resp *Response, reqType string) error {
+
+	// Check if token is expired
+	if a.token.expired() {
+		err := a.GetToken()
+		if err != nil {
+			return err
+		}
+	}
+
+	// get base api url
+	baseURL, err := a.getBaseURL()
 	if err != nil {
 		return err
 	}
 
-	// send request to api
-	resp, err := http.Post(
-		urlStr,
-		"application/x-www-form-urlencoded",
-		strings.NewReader(body.Encode()),
+	// prepare request
+	r, err := http.NewRequest(
+		reqType,
+		req.GetURL(baseURL, reqType),
+		req.GetBody(reqType),
 	)
 	if err != nil {
 		return err
 	}
 
-	// fetch token when time expires
-	now := time.Now()
+	// add headers
+	r.Header.Add("Authorization", a.token.getAuthorization())
+	r.Header.Add("Content-Type", "application/json")
+	r.Header.Add("Accept", "application/json")
 
-	defer resp.Body.Close()
-
-	// check if status code valid
-	if resp.StatusCode != 200 {
-		return errors.New("requesting token failed")
+	// send request
+	client := http.Client{}
+	rsp, err := client.Do(r)
+	if err != nil {
+		return err
 	}
+	defer rsp.Body.Close()
 
-	// read body response
-	r, err := ioutil.ReadAll(resp.Body)
+	// read body
+	b, err := ioutil.ReadAll(rsp.Body)
 	if err != nil {
 		return err
 	}
 
-	// convert json struct to Token struct
-	err = json.Unmarshal(r, &a.token)
+	// fmt.Println(rsp.StatusCode)
+	// fmt.Println(req.GetURL(baseURL, version))
+	// fmt.Println(string(b))
+
+	// decode response to struct
+	err = (*resp).Decode(b)
+
 	if err != nil {
 		return err
-	}
-
-	// add created time
-	a.token.Created = now
-
-	// check expiry on retrived token
-	if a.token.ExpiresIn == 0 {
-		return errors.New("returned token not valid")
 	}
 
 	return nil
-}
 
-// CheckToken send request to amadeus api to check if token is still valid
-func (a *Amadeus) CheckToken() error {
-
-	// get url string
-	urlStr, err := a.getURL(auth)
-	if err != nil {
-		return err
-	}
-
-	// send request to api
-	resp, err := http.Get(urlStr + "/" + a.token.getAuthorization())
-	if err != nil {
-		return err
-	}
-
-	defer resp.Body.Close()
-
-	// check if status code valid
-	if resp.StatusCode != 200 {
-		return errors.New("requesting token failed")
-	}
-
-	// read body response
-	r, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return err
-	}
-
-	// convert json struct to Token struct
-	err = json.Unmarshal(r, &a.token)
-	if err != nil {
-		return err
-	}
-
-	// check expiry on retrived token
-	if a.token.ExpiresIn == 0 {
-		return errors.New("returned token not valid")
-	}
-
-	return nil
-}
-
-// ErrorResponse struct for error response from api
-type ErrorResponse struct {
-	Code   int    `json:"code,omitempty"`
-	Title  string `json:"title,omitempty"`
-	Detail string `json:"detail,omitempty"`
-	Source struct {
-		Pointer string `json:"pointer,omitempty"`
-		Example string `json:"example,omitempty"`
-	} `json:"source,omitempty"`
-	Status int `json:"status,omitempty"`
-}
-
-// requests send POST request to api with given payload
-func (a *Amadeus) getRequest(url string, queryParams []string) ([]byte, error) {
-
-	if a.token.expired() {
-		err := a.GetToken()
-		if err != nil {
-			return nil, err
-		}
-	}
-
-	req, err := http.NewRequest("GET", url, nil)
-	if err != nil {
-		return nil, err
-	}
-
-	req.Header.Add("Authorization", a.token.getAuthorization())
-	req.Header.Add("Content-Type", "application/json")
-	req.Header.Add("Accept", "application/json")
-
-	client := http.Client{}
-	resp, err := client.Do(req)
-	if err != nil {
-		return nil, err
-	}
-	defer resp.Body.Close()
-
-	b, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return nil, err
-	}
-
-	return b, nil
-}
-
-// requests send POST request to api with given payload
-func (a *Amadeus) postRequest(reqPayload, url string) ([]byte, error) {
-
-	if a.token.expired() {
-		err := a.GetToken()
-		if err != nil {
-			return nil, err
-		}
-	}
-
-	payload := strings.NewReader(reqPayload)
-
-	req, err := http.NewRequest("POST", url, payload)
-	if err != nil {
-		return nil, err
-	}
-
-	req.Header.Add("Authorization", a.token.getAuthorization())
-	req.Header.Add("Content-Type", "application/json")
-	req.Header.Add("Accept", "application/json")
-
-	client := http.Client{}
-	resp, err := client.Do(req)
-	if err != nil {
-		return nil, err
-	}
-	defer resp.Body.Close()
-
-	b, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return nil, err
-	}
-
-	return b, nil
-}
-
-type token struct {
-	Type             string        `json:"type,omitempty"`
-	Username         string        `json:"username,omitempty"`
-	AppName          string        `json:"application_name,omitempty"`
-	ClientID         string        `json:"client_id,omitempty"`
-	TokenType        string        `json:"token_type,omitempty"`
-	AccessToken      string        `json:"access_token,omitempty"`
-	ExpiresIn        time.Duration `json:"expires_in,omitempty"`
-	State            string        `json:"state,omitempty"`
-	Scope            string        `json:"scope,omitempty"`
-	Error            string        `json:"error,omitempty"`
-	ErrorDescription string        `json:"error_description,omitempty"`
-	Code             int           `json:"code,omitempty"`
-	Title            string        `json:"title,omitempty"`
-	Created          time.Time
-}
-
-// getAuthorization return token type and token
-func (t *token) getAuthorization() string {
-	return t.TokenType + " " + t.AccessToken
-}
-
-// expired check if token is expired
-func (t *token) expired() bool {
-
-	if t.ExpiresIn == 0 {
-		return true
-	}
-
-	if time.Now().Sub(t.Created) < t.ExpiresIn {
-		return true
-	}
-
-	return false
 }

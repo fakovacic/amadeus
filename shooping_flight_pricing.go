@@ -1,18 +1,64 @@
 package amadeus
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"io"
+	"strings"
+)
 
-// FlightOffersPrice
+// ShoppingFlightPricingRequest
 
 // REQUEST
 
-type FlightOffersPriceRequest struct {
+type ShoppingFlightPricingRequest struct {
 	Data PricingData `json:"data,omitempty"`
+}
+
+// AddOffer add flight offer to request
+func (sR *ShoppingFlightPricingRequest) AddOffer(offer FlightOffer) *ShoppingFlightPricingRequest {
+
+	sR.Data.Type = "flight-offers-pricing"
+	sR.Data.FlightOffers = append(sR.Data.FlightOffers, offer)
+
+	return sR
+}
+
+// GetURL returned key=value format for request on api
+func (sR ShoppingFlightPricingRequest) GetURL(baseURL, reqType string) string {
+
+	// set request url
+	url := shoopingFlightOffersPricingURL
+
+	// add version
+	switch reqType {
+	case "POST":
+
+		return baseURL + "/v1" + url
+	}
+
+	return ""
+}
+
+// GetBody prepare struct values to slice
+// returned key=value format for request on api
+func (sR ShoppingFlightPricingRequest) GetBody(reqType string) io.Reader {
+
+	switch reqType {
+	case "POST":
+		reqPayload, err := json.Marshal(sR)
+		if err != nil {
+			return nil
+		}
+
+		return strings.NewReader(string(reqPayload))
+	}
+
+	return nil
 }
 
 // RESPONSE
 
-type FlightOffersPriceResponse struct {
+type ShoppingFlightPricingResponse struct {
 	Data   PricingData     `json:"data,omitempty"`
 	Errors []ErrorResponse `json:"errors,omitempty"`
 }
@@ -22,29 +68,18 @@ type PricingData struct {
 	FlightOffers []FlightOffer `json:"flightOffers,omitempty"`
 }
 
-func (a *Amadeus) FlightPricing(request FlightOffersPriceRequest) (FlightOffersPriceResponse, error) {
+// Decode implement Response interface
+func (dR *ShoppingFlightPricingResponse) Decode(rsp []byte) error {
 
-	var response FlightOffersPriceResponse
-
-	urlStr, err := a.getURL(shoopingFlightOffersPricing)
+	err := json.Unmarshal(rsp, &dR)
 	if err != nil {
-		return response, err
+		return err
 	}
 
-	reqPayload, err := json.Marshal(request)
-	if err != nil {
-		return response, err
-	}
+	return nil
+}
 
-	resp, err := a.postRequest(string(reqPayload), urlStr)
-	if err != nil {
-		return response, err
-	}
-
-	err = json.Unmarshal(resp, &response)
-	if err != nil {
-		return response, err
-	}
-
-	return response, nil
+// GetOffer return offer from list
+func (dR ShoppingFlightPricingResponse) GetOffers() []FlightOffer {
+	return dR.Data.FlightOffers
 }
