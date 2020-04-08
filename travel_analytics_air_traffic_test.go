@@ -60,8 +60,6 @@ func TestTravelAnalyticsAirTraffic(t *testing.T) {
 		// get flight destination response
 		respData := resp.(*TravelAnalyticsAirTrafficResponse)
 
-		fmt.Println(respData.Data)
-
 		// check if reponse exist
 		if len(respData.Data) == 0 {
 			t.Error("return 0 results in offer search request")

@@ -69,6 +69,20 @@ const (
 	travelAnalyticsAirTrafficURL = "/travel/analytics/air-traffic"
 
 	//
+	// Reference data
+	//
+
+	// Airport & City Search
+	// Airport Nearest Relevant
+	referenceDataLocationsURL = "/reference-data/locations"
+
+	// Flight Check-in Links
+	referenceDataUrlsURL = "/reference-data/urls"
+
+	// Airline Code Lookup
+	referenceDataAirlinesURL = "/reference-data/airlines"
+
+	//
 	// Requests && Response types
 	//
 
@@ -92,6 +106,15 @@ const (
 
 	// TravelAnalyticsAirTraffic //
 	TravelAnalyticsAirTraffic
+
+	// ReferenceDataLocations //
+	ReferenceDataLocations
+
+	// ReferenceDataUrls //
+	ReferenceDataUrls
+
+	// ReferenceDataAirlines //
+	ReferenceDataAirlines
 )
 
 // Amadeus main struct that holds sensitive data for communicating with api
@@ -214,8 +237,10 @@ func (a *Amadeus) NewRequest(req int) (Request, Response, error) {
 		return new(BookingFlightOrderRequest), new(BookingFlightOrderResponse), nil
 	case TravelAnalyticsAirTraffic:
 		return new(TravelAnalyticsAirTrafficRequest), new(TravelAnalyticsAirTrafficResponse), nil
+	case ReferenceDataLocations:
+		return new(ReferenceDataLocationsRequest), new(ReferenceDataLocationsResponse), nil
 	default:
-		return nil, nil, errors.New("Request method %d not recognized")
+		return nil, nil, errors.New("Request method not recognized")
 	}
 }
 
@@ -266,7 +291,7 @@ func (a *Amadeus) Do(req Request, resp *Response, reqType string) error {
 	}
 
 	// fmt.Println(rsp.StatusCode)
-	// fmt.Println(req.GetURL(baseURL, version))
+	// fmt.Println(req.GetURL(baseURL, reqType))
 	// fmt.Println(string(b))
 
 	// decode response to struct

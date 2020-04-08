@@ -1,5 +1,7 @@
 # Go client for Amadeus REST API
 
+- still work in progress
+
 ## Coverage
 
 ### Authentification
@@ -30,6 +32,15 @@
  * GET /v1/travel/analytics/air-traffic/booked
  * GET /v1/travel/analytics/air-traffic/busiest-period
 
+#### Utilities
+
+ * GET /v1/reference-data/locations/airports
+ * GET /v1/reference-data/locations
+ * GET /v1/reference-data/locations/{id}
+
+ * GET /v2/reference-data/urls/checkin-links
+ * GET /v1/reference-data/airlines
+
 ## Missing endpoints
 
 ### AIR
@@ -37,14 +48,6 @@
 #### Search & Shooping
 
  * POST /v1/shopping/seatmaps
- 
-#### Utilities
-
- * GET /v1/reference-data/locations/airports
- * GET /v1/reference-data/locations
- * GET /v1/reference-data/locations/{id}
- * GET /v2/reference-data/urls/checkin-links
- * GET /v1/reference-data/airlines
 
 #### Artificial Inteligence
 
