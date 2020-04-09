@@ -83,11 +83,12 @@ type PricingOption struct {
 }
 
 type TravelerPricing struct {
-	TravelerID           string                 `json:"travelerId,omitempty"`
-	FareOption           string                 `json:"fareOption,omitempty"`
-	TravelerType         string                 `json:"travelerType,omitempty"`
-	Price                Price                  `json:"price,omitempty"`
-	FareDetailsBySegment []FareDetailsBySegment `json:"fareDetailsBySegment,omitempty"`
+	TravelerID             string                 `json:"travelerId,omitempty"`
+	FareOption             string                 `json:"fareOption,omitempty"`
+	TravelerType           string                 `json:"travelerType,omitempty"`
+	SeatAvailabilityStatus string                 `json:"seatAvailabilityStatus,omitempty"`
+	Price                  Price                  `json:"price,omitempty"`
+	FareDetailsBySegment   []FareDetailsBySegment `json:"fareDetailsBySegment,omitempty"`
 }
 
 type FareDetailsBySegment struct {

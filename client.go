@@ -51,6 +51,10 @@ const (
 	// check certain offer if is still active, response with additional data for offer
 	shoopingFlightOffersPricingURL = "/shopping/flight-offers/pricing"
 
+	// Seatmap Display
+	//
+	shoopingSeatmapsURL = "/shopping/seatmaps"
+
 	//
 	// Booking
 	//
@@ -229,8 +233,8 @@ func (a *Amadeus) NewRequest(req int) (Request, Response, error) {
 		return new(ShoppingFlightDatesRequest), new(ShoppingFlightDatesResponse), nil
 	case ShoppingFlightOffers:
 		return new(ShoppingFlightOffersRequest), new(ShoppingFlightOffersResponse), nil
-	// case ShoppingSeatmaps:
-	// 	return new(ShoppingSeatmapsRequest), new(ShoppingSeatmapsResponse) nil
+	case ShoppingSeatmaps:
+		return new(ShoppingSeatmapsRequest), new(ShoppingSeatmapsResponse), nil
 	case ShoppingFlightPricing:
 		return new(ShoppingFlightPricingRequest), new(ShoppingFlightPricingResponse), nil
 	case BookingFlightOrder:

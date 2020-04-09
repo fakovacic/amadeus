@@ -133,6 +133,9 @@ go get https://github.com/fakovacic/amadeus
 
  * POST /v1/shopping/flight-offers/pricing
 
+ * GET  /v1/shopping/seatmaps
+ * POST /v1/shopping/seatmaps
+
 #### Booking
 
  * POST /v1/booking/flight-orders
@@ -156,10 +159,6 @@ go get https://github.com/fakovacic/amadeus
 ## Missing endpoints
 
 ### AIR
-
-#### Search & Shooping
-
- * POST /v1/shopping/seatmaps
 
 #### Artificial Inteligence
 
