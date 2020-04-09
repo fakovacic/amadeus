@@ -295,9 +295,10 @@ func (sR ShoppingFlightOffersRequest) GetBody(reqType string) io.Reader {
 // RESPONSE
 
 type ShoppingFlightOffersResponse struct {
-	Meta   Meta            `json:"meta,omitempty"`
-	Data   []FlightOffer   `json:"data,omitempty"`
-	Errors []ErrorResponse `json:"errors,omitempty"`
+	Meta         Meta            `json:"meta,omitempty"`
+	Data         []FlightOffer   `json:"data,omitempty"`
+	Dictionaries Dictionaries    `json:"dictionaries,omitempty"`
+	Errors       []ErrorResponse `json:"errors,omitempty"`
 }
 
 type Meta struct {

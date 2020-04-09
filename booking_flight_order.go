@@ -142,8 +142,9 @@ func (sR BookingFlightOrderRequest) GetBody(reqType string) io.Reader {
 // RESPONSE
 
 type BookingFlightOrderResponse struct {
-	Data   OrderData       `json:"data,omitempty"`
-	Errors []ErrorResponse `json:"errors,omitempty"`
+	Data         OrderData       `json:"data,omitempty"`
+	Dictionaries Dictionaries    `json:"dictionaries,omitempty"`
+	Errors       []ErrorResponse `json:"errors,omitempty"`
 }
 
 // Decode implement Response interface

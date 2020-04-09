@@ -159,9 +159,9 @@ func (dR TravelAnalyticsAirTrafficRequest) GetBody(reqType string) io.Reader {
 }
 
 type TravelAnalyticsAirTrafficResponse struct {
-	Warnings []Warnings      `json:"warnings,omitempty"`
 	Meta     Meta            `json:"meta,omitempty"`
 	Data     []AnayticsData  `json:"data,omitempty"`
+	Warnings []Warnings      `json:"warnings,omitempty"`
 	Errors   []ErrorResponse `json:"errors,omitempty"`
 }
 

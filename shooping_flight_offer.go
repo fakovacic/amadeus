@@ -103,3 +103,13 @@ type FareDetailsBySegment struct {
 type IncludedCheckedBags struct {
 	Quantity int `json:"quantity,omitempty"`
 }
+
+// Dictionaries
+type Dictionaries struct {
+	Carriers           map[string]string            `json:"carriers,omitempty"`
+	Currencies         map[string]string            `json:"currencies,omitempty"`
+	Aircrafts          map[string]string            `json:"aircraft,omitempty"`
+	SeatCharacteristic map[string]string            `json:"seatCharacteristic,omitempty"`
+	Facility           map[string]string            `json:"facility,omitempty"`
+	Locations          map[string]map[string]string `json:"locations,omitempty"`
+}

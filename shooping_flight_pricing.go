@@ -59,8 +59,9 @@ func (sR ShoppingFlightPricingRequest) GetBody(reqType string) io.Reader {
 // RESPONSE
 
 type ShoppingFlightPricingResponse struct {
-	Data   PricingData     `json:"data,omitempty"`
-	Errors []ErrorResponse `json:"errors,omitempty"`
+	Data         PricingData     `json:"data,omitempty"`
+	Dictionaries Dictionaries    `json:"dictionaries,omitempty"`
+	Errors       []ErrorResponse `json:"errors,omitempty"`
 }
 
 type PricingData struct {

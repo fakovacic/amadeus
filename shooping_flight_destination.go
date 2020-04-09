@@ -143,9 +143,10 @@ func (dR ShoppingFlightDestinationRequest) GetBody(reqType string) io.Reader {
 }
 
 type ShoppingFlightDestinationResponse struct {
-	Data   []Data          `json:"data,omitempty"`
-	Meta   Meta            `json:"meta,omitempty"`
-	Errors []ErrorResponse `json:"errors,omitempty"`
+	Meta         Meta            `json:"meta,omitempty"`
+	Data         []Data          `json:"data,omitempty"`
+	Dictionaries Dictionaries    `json:"dictionaries,omitempty"`
+	Errors       []ErrorResponse `json:"errors,omitempty"`
 }
 
 // Decode implement Response interface

@@ -85,9 +85,10 @@ func (sR ShoppingSeatmapsRequest) GetBody(reqType string) io.Reader {
 }
 
 type ShoppingSeatmapsResponse struct {
-	Meta   Meta            `json:"meta,omitempty"`
-	Data   []SeatData      `json:"data,omitempty"`
-	Errors []ErrorResponse `json:"errors,omitempty"`
+	Meta         Meta            `json:"meta,omitempty"`
+	Data         []SeatData      `json:"data,omitempty"`
+	Dictionaries Dictionaries    `json:"dictionaries,omitempty"`
+	Errors       []ErrorResponse `json:"errors,omitempty"`
 }
 
 // Decode implement Response interface
