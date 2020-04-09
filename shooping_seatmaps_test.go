@@ -76,6 +76,10 @@ func TestShoppingSeatmapsRequestFlightOffers(t *testing.T) {
 			t.Error("return 0 results in seatMaps request")
 		}
 
+		fmt.Println("------------------")
+		fmt.Println(seatMapsRespData)
+		fmt.Println("------------------")
+
 	})
 
 }

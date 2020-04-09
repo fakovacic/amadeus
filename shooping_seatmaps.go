@@ -3,6 +3,7 @@ package amadeus
 import (
 	"encoding/json"
 	"io"
+	"strconv"
 	"strings"
 )
 
@@ -21,6 +22,11 @@ func (sR *ShoppingSeatmapsRequest) SetFlightOrderID(id string) *ShoppingSeatmaps
 
 // AddOffer add flight offer to request
 func (sR *ShoppingSeatmapsRequest) AddOffer(offer FlightOffer) *ShoppingSeatmapsRequest {
+
+	offersCount := len(sR.FlightOffers)
+	offersCount++
+
+	offer.ID = strconv.Itoa(offersCount)
 
 	sR.FlightOffers = append(sR.FlightOffers, offer)
 
