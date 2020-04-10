@@ -10,6 +10,11 @@ type HotelData struct {
 	Self      string        `json:"self,omitempty"`
 }
 
+// GetOfferID return offerID from list
+func (dR HotelData) GetOfferID(offerNum int) string {
+	return dR.Offers[offerNum].ID
+}
+
 type Hotel struct {
 	Type          string        `json:"type,omitempty"`
 	HotelID       string        `json:"hotelId,omitempty"`
@@ -156,8 +161,9 @@ type AcceptedPayments struct {
 }
 
 type Deposit struct {
-	Amount           string           `json:"amount,omitempty"`
-	Deadline         time.Time        `json:"deadline,omitempty"`
+	Amount string `json:"amount,omitempty"`
+	//Deadline         time.Time        `json:"deadline,omitempty"`
+	Deadline         string           `json:"deadline,omitempty"`
 	Description      Description      `json:"description,omitempty"`
 	AcceptedPayments AcceptedPayments `json:"acceptedPayments,omitempty"`
 }
@@ -168,7 +174,8 @@ type Prepay struct {
 	AcceptedPayments AcceptedPayments `json:"acceptedPayments,omitempty"`
 }
 type HoldTime struct {
-	Deadline time.Time `json:"deadline,omitempty"`
+	//Deadline time.Time `json:"deadline,omitempty"`
+	Deadline string `json:"deadline,omitempty"`
 }
 type Cancellation struct {
 	Type           string      `json:"type,omitempty"`

@@ -2,6 +2,7 @@ package amadeus
 
 import (
 	"errors"
+	"fmt"
 	"io"
 	"io/ioutil"
 	"net/http"
@@ -109,6 +110,10 @@ const (
 	// get hotel reputation by hotel ids
 	ereputationHotelSentimentsURL = "/e-reputation/hotel-sentiments"
 
+	// Hotel Booking
+	// allows you to book the best hotel offers you have searched from a wide choice of providers
+	bookingHotelBookingsURL = "/booking/hotel-bookings"
+
 	//
 	// Requests && Response types
 	//
@@ -154,6 +159,9 @@ const (
 
 	// EReputationHotelSentiments //
 	EReputationHotelSentiments
+
+	// BookingHotelBookings //
+	BookingHotelBookings
 )
 
 // Amadeus main struct that holds sensitive data for communicating with api
@@ -290,6 +298,8 @@ func (a *Amadeus) NewRequest(req int) (Request, Response, error) {
 		return new(ShoopingHotelOffersRequest), new(ShoopingHotelOffersResponse), nil
 	case EReputationHotelSentiments:
 		return new(EReputationHotelSentimentsRequest), new(EReputationHotelSentimentsResponse), nil
+	case BookingHotelBookings:
+		return new(BookingHotelBookingsRequest), new(BookingHotelBookingsResponse), nil
 
 	default:
 		return nil, nil, errors.New("request&response not recognized")
@@ -342,9 +352,11 @@ func (a *Amadeus) Do(req Request, resp *Response, reqType string) error {
 		return err
 	}
 
-	// fmt.Println(rsp.StatusCode)
-	// fmt.Println(req.GetURL(baseURL, reqType))
-	// fmt.Println(string(b))
+	fmt.Println("------------------")
+	fmt.Println(rsp.StatusCode)
+	fmt.Println(req.GetURL(baseURL, reqType))
+	fmt.Println(string(b))
+	fmt.Println("------------------")
 
 	// decode response to struct
 	err = (*resp).Decode(b)

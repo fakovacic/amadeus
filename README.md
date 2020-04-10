@@ -172,6 +172,10 @@ go get https://github.com/fakovacic/amadeus
 
  * GET /v2/e-reputation/hotel-sentiments
 
+#### Booking
+
+ * POST /v1/booking/hotel-bookings
+
 ## Missing endpoints
 
 ### AIR
@@ -180,12 +184,6 @@ go get https://github.com/fakovacic/amadeus
 
  * POST /v1/shopping/flight-offers/prediction
  * GET  /v1/travel/predictions/flight-delay
-
-### Hotel
-
-#### Booking
-
- * POST /v1/booking/hotel-bookings
 
 ### Destination content
 

@@ -508,3 +508,8 @@ func (dR *ShoopingHotelsOffersResponse) Decode(rsp []byte) error {
 
 	return nil
 }
+
+// GetOffer return offer from list
+func (dR ShoopingHotelsOffersResponse) GetHotel(offerNum int) HotelData {
+	return dR.Data[offerNum]
+}
