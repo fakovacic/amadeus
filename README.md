@@ -180,7 +180,8 @@ go get https://github.com/fakovacic/amadeus
 
 #### Artificial Inteligence
 
-* GET /v2/media/files/generated-photos
+ * GET  /v1/travel/predictions/trip-purpose
+ * GET /v2/media/files/generated-photos
 
 ## Missing endpoints
 
@@ -205,8 +206,5 @@ go get https://github.com/fakovacic/amadeus
  * GET  /v2/travel/trip-parser-jobs/{{jobId}}
  * GET  /v2/travel/trip-parser-jobs/{{jobId}}/result
 
-#### Artificial Inteligence
-
-* GET  /v1/travel/predictions/trip-purpose
 
 

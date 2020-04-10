@@ -144,7 +144,7 @@ func (sR *ShoppingFlightOffersRequest) Return(origin, destination, departureDate
 
 	sR.AddOriginDestination(origin, destination, departureDate)
 
-	sR.AddOriginDestination(origin, destination, returnDate)
+	sR.AddOriginDestination(destination, origin, returnDate)
 
 	return sR
 

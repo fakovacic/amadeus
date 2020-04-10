@@ -118,6 +118,11 @@ const (
 	// 	TRIP  //
 	////////////
 
+	// Trip Purpose Prediction
+	// The Trip Purpose Prediction API allows developers to forecast traveler purpose, Business or Leisure,
+	// together with the probability in the context of search & shopping
+	travelPredictionTripPurposeURL = "/travel/predictions/trip-purpose"
+
 	// AI Generated Photos
 	// The AI-Generated Photos API returns a link to download a rendered image of a landscape.
 	mediaFilesGeneratedPhotosURL = "/media/files/generated-photos"
@@ -170,6 +175,9 @@ const (
 
 	// BookingHotelBookings //
 	BookingHotelBookings
+
+	// TravelPredictionTripPurpose //
+	TravelPredictionTripPurpose
 
 	// MediaFilesGeneratedPhotos //
 	MediaFilesGeneratedPhotos
@@ -281,6 +289,11 @@ type Response interface {
 // NewRequest return new valid Request interface
 func (a *Amadeus) NewRequest(req int) (Request, Response, error) {
 	switch req {
+
+	//
+	// AIR
+	//
+
 	case ShoppingFlightDestination:
 		return new(ShoppingFlightDestinationRequest), new(ShoppingFlightDestinationResponse), nil
 	case ShoppingFlightDates:
@@ -303,6 +316,10 @@ func (a *Amadeus) NewRequest(req int) (Request, Response, error) {
 		return new(ReferenceDataAirlinesRequest), new(ReferenceDataAirlinesResponse), nil
 	case AirportPredictionsOnTime:
 		return new(AirportPredictionsOnTimeRequest), new(AirportPredictionsOnTimeResponse), nil
+
+	//
+	// HOTELS
+	//
 	case ShoopingHotelsOffers:
 		return new(ShoopingHotelOffersRequest), new(ShoopingHotelsOffersResponse), nil
 	case ShoopingHotelOffers:
@@ -311,6 +328,12 @@ func (a *Amadeus) NewRequest(req int) (Request, Response, error) {
 		return new(EReputationHotelSentimentsRequest), new(EReputationHotelSentimentsResponse), nil
 	case BookingHotelBookings:
 		return new(BookingHotelBookingsRequest), new(BookingHotelBookingsResponse), nil
+
+	//
+	// TRIP
+	//
+	case TravelPredictionTripPurpose:
+		return new(TravelPredictionTripPurposeRequest), new(TravelPredictionTripPurposeResponse), nil
 	case MediaFilesGeneratedPhotos:
 		return new(MediaFilesGeneratedPhotosRequest), new(MediaFilesGeneratedPhotosResponse), nil
 
