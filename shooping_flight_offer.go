@@ -112,4 +112,6 @@ type Dictionaries struct {
 	SeatCharacteristic map[string]string            `json:"seatCharacteristic,omitempty"`
 	Facility           map[string]string            `json:"facility,omitempty"`
 	Locations          map[string]map[string]string `json:"locations,omitempty"`
+	// hotel offers
+	CurrencyConversionLookupRates map[string]string `json:"currencyConversionLookupRates,omitempty"`
 }

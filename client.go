@@ -93,6 +93,18 @@ const (
 	// AirportPredictionsOnTime
 	airportPredictionsOnTimeURL = "/airport/predictions/on-time"
 
+	/////////////
+	// 	HOTEL  //
+	/////////////
+
+	//
+	// Shooping
+	//
+
+	// Hotel Search
+	// search for hotel offers on destination
+	shoopingHotelOffersURL = "/shopping/hotel-offers"
+
 	//
 	// Requests && Response types
 	//
@@ -129,6 +141,12 @@ const (
 
 	// AirportPredictionsOnTime //
 	AirportPredictionsOnTime
+
+	// ShoopingHotelsOffers //
+	ShoopingHotelsOffers
+
+	// ShoopingHotelOffers //
+	ShoopingHotelOffers
 )
 
 // Amadeus main struct that holds sensitive data for communicating with api
@@ -259,6 +277,10 @@ func (a *Amadeus) NewRequest(req int) (Request, Response, error) {
 		return new(ReferenceDataAirlinesRequest), new(ReferenceDataAirlinesResponse), nil
 	case AirportPredictionsOnTime:
 		return new(AirportPredictionsOnTimeRequest), new(AirportPredictionsOnTimeResponse), nil
+	case ShoopingHotelsOffers:
+		return new(ShoopingHotelOffersRequest), new(ShoopingHotelsOffersResponse), nil
+	case ShoopingHotelOffers:
+		return new(ShoopingHotelOffersRequest), new(ShoopingHotelOffersResponse), nil
 
 	default:
 		return nil, nil, errors.New("request&response not recognized")
