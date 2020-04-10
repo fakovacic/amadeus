@@ -81,7 +81,7 @@ const (
 	referenceDataLocationsURL = "/reference-data/locations"
 
 	// Flight Check-in Links
-	referenceDataUrlsURL = "/reference-data/urls"
+	referenceDataUrlsCheckinLinksURL = "/reference-data/urls/checkin-links"
 
 	// Airline Code Lookup
 	referenceDataAirlinesURL = "/reference-data/airlines"
@@ -114,8 +114,8 @@ const (
 	// ReferenceDataLocations //
 	ReferenceDataLocations
 
-	// ReferenceDataUrls //
-	ReferenceDataUrls
+	// ReferenceDataUrlsCheckinLinks //
+	ReferenceDataUrlsCheckinLinks
 
 	// ReferenceDataAirlines //
 	ReferenceDataAirlines
@@ -243,6 +243,9 @@ func (a *Amadeus) NewRequest(req int) (Request, Response, error) {
 		return new(TravelAnalyticsAirTrafficRequest), new(TravelAnalyticsAirTrafficResponse), nil
 	case ReferenceDataLocations:
 		return new(ReferenceDataLocationsRequest), new(ReferenceDataLocationsResponse), nil
+	case ReferenceDataUrlsCheckinLinks:
+		return new(ReferenceDataUrlsCheckinLinksRequest), new(ReferenceDataUrlsCheckinLinksResponse), nil
+
 	default:
 		return nil, nil, errors.New("Request method not recognized")
 	}

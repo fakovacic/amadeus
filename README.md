@@ -153,14 +153,12 @@ go get https://github.com/fakovacic/amadeus
  * GET /v1/reference-data/locations
  * GET /v1/reference-data/locations/{id}
 
+ * GET /v2/reference-data/urls/checkin-links
+ * GET /v1/reference-data/airlines
+
 ## Missing endpoints
 
 ### AIR
-
-#### Utilities
-
- * GET /v2/reference-data/urls/checkin-links
- * GET /v1/reference-data/airlines
 
 #### Artificial Inteligence
 
