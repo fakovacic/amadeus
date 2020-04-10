@@ -176,6 +176,12 @@ go get https://github.com/fakovacic/amadeus
 
  * POST /v1/booking/hotel-bookings
 
+### Trip
+
+#### Artificial Inteligence
+
+* GET /v2/media/files/generated-photos
+
 ## Missing endpoints
 
 ### AIR
@@ -202,5 +208,5 @@ go get https://github.com/fakovacic/amadeus
 #### Artificial Inteligence
 
 * GET  /v1/travel/predictions/trip-purpose
-* POST /v2/media/files/generated-photos
+
 

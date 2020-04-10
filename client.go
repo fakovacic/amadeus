@@ -114,6 +114,14 @@ const (
 	// allows you to book the best hotel offers you have searched from a wide choice of providers
 	bookingHotelBookingsURL = "/booking/hotel-bookings"
 
+	////////////
+	// 	TRIP  //
+	////////////
+
+	// AI Generated Photos
+	// The AI-Generated Photos API returns a link to download a rendered image of a landscape.
+	mediaFilesGeneratedPhotosURL = "/media/files/generated-photos"
+
 	//
 	// Requests && Response types
 	//
@@ -162,6 +170,9 @@ const (
 
 	// BookingHotelBookings //
 	BookingHotelBookings
+
+	// MediaFilesGeneratedPhotos //
+	MediaFilesGeneratedPhotos
 )
 
 // Amadeus main struct that holds sensitive data for communicating with api
@@ -300,6 +311,8 @@ func (a *Amadeus) NewRequest(req int) (Request, Response, error) {
 		return new(EReputationHotelSentimentsRequest), new(EReputationHotelSentimentsResponse), nil
 	case BookingHotelBookings:
 		return new(BookingHotelBookingsRequest), new(BookingHotelBookingsResponse), nil
+	case MediaFilesGeneratedPhotos:
+		return new(MediaFilesGeneratedPhotosRequest), new(MediaFilesGeneratedPhotosResponse), nil
 
 	default:
 		return nil, nil, errors.New("request&response not recognized")
