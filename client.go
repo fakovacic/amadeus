@@ -245,6 +245,8 @@ func (a *Amadeus) NewRequest(req int) (Request, Response, error) {
 		return new(ReferenceDataLocationsRequest), new(ReferenceDataLocationsResponse), nil
 	case ReferenceDataUrlsCheckinLinks:
 		return new(ReferenceDataUrlsCheckinLinksRequest), new(ReferenceDataUrlsCheckinLinksResponse), nil
+	case ReferenceDataAirlines:
+		return new(ReferenceDataAirlinesRequest), new(ReferenceDataAirlinesResponse), nil
 
 	default:
 		return nil, nil, errors.New("Request method not recognized")
