@@ -160,15 +160,6 @@ go get https://github.com/fakovacic/amadeus
 
  * GET  /v1/airport/predictions/on-time
 
-## Missing endpoints
-
-### AIR
-
-#### Artificial Inteligence
-
- * POST /v1/shopping/flight-offers/prediction
- * GET  /v1/travel/predictions/flight-delay
-
 ### Hotel
 
 #### Search & Shooping
@@ -181,6 +172,17 @@ go get https://github.com/fakovacic/amadeus
 
  * GET /v2/e-reputation/hotel-sentiments
 
+## Missing endpoints
+
+### AIR
+
+#### Artificial Inteligence
+
+ * POST /v1/shopping/flight-offers/prediction
+ * GET  /v1/travel/predictions/flight-delay
+
+### Hotel
+
 #### Booking
 
  * POST /v1/booking/hotel-bookings
@@ -191,4 +193,16 @@ go get https://github.com/fakovacic/amadeus
 
  * GET /v1/reference-data/locations/pois
 
+### Trip
+
+#### Utilities
+
+ * POST /v2/travel/trip-parser-jobs
+ * GET  /v2/travel/trip-parser-jobs/{{jobId}}
+ * GET  /v2/travel/trip-parser-jobs/{{jobId}}/result
+
+#### Artificial Inteligence
+
+* GET  /v1/travel/predictions/trip-purpose
+* POST /v2/media/files/generated-photos
 

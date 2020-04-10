@@ -105,6 +105,10 @@ const (
 	// search for hotel offers on destination
 	shoopingHotelOffersURL = "/shopping/hotel-offers"
 
+	// Hotel Ratings
+	// get hotel reputation by hotel ids
+	ereputationHotelSentimentsURL = "/e-reputation/hotel-sentiments"
+
 	//
 	// Requests && Response types
 	//
@@ -147,6 +151,9 @@ const (
 
 	// ShoopingHotelOffers //
 	ShoopingHotelOffers
+
+	// EReputationHotelSentiments //
+	EReputationHotelSentiments
 )
 
 // Amadeus main struct that holds sensitive data for communicating with api
@@ -281,6 +288,8 @@ func (a *Amadeus) NewRequest(req int) (Request, Response, error) {
 		return new(ShoopingHotelOffersRequest), new(ShoopingHotelsOffersResponse), nil
 	case ShoopingHotelOffers:
 		return new(ShoopingHotelOffersRequest), new(ShoopingHotelOffersResponse), nil
+	case EReputationHotelSentiments:
+		return new(EReputationHotelSentimentsRequest), new(EReputationHotelSentimentsResponse), nil
 
 	default:
 		return nil, nil, errors.New("request&response not recognized")

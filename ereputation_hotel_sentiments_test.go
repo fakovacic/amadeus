@@ -8,14 +8,14 @@ import (
 	"github.com/joho/godotenv"
 )
 
-func TestReferenceDataLocations(t *testing.T) {
+func TestEReputationHotelSentiments(t *testing.T) {
 
 	err := godotenv.Load()
 	if err != nil {
 		fmt.Println("Not found .env file")
 	}
 
-	t.Run("TestReferenceDataLocations", func(t *testing.T) {
+	t.Run("TestEReputationHotelSentiments", func(t *testing.T) {
 
 		// create client
 		amadeus, err := New(
@@ -28,20 +28,13 @@ func TestReferenceDataLocations(t *testing.T) {
 		}
 
 		// get request&response
-		req, resp, err := amadeus.NewRequest(ReferenceDataLocations)
+		req, resp, err := amadeus.NewRequest(EReputationHotelSentiments)
 		if err != nil {
 			t.Fatal("not expected error while getting data", err)
 		}
 
-		// set LocationID
-		// Not working currently - response is single LocationData
-		//req.(*ReferenceDataLocationsRequest).SetLocationID("CMUC")
-
-		// set Geo
-		//req.(*ReferenceDataLocationsRequest).SetGeo("49.0000", "2.55")
-
 		// set Keyword
-		req.(*ReferenceDataLocationsRequest).GetByKeyword("MUC", AIRPORT, CITY)
+		req.(*EReputationHotelSentimentsRequest).AddHotelIDs("ELONMFS", "ADNYCCTB", "XXXYYY01")
 
 		// send request
 		err = amadeus.Do(req, &resp, "GET")
@@ -50,7 +43,7 @@ func TestReferenceDataLocations(t *testing.T) {
 		}
 
 		// get response
-		respData := resp.(*ReferenceDataLocationsResponse)
+		respData := resp.(*EReputationHotelSentimentsResponse)
 
 		// check if reponse exist
 		if len(respData.Data) == 0 {
