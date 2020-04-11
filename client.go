@@ -162,6 +162,9 @@ const (
 	// ReferenceDataLocations //
 	ReferenceDataLocations
 
+	// ReferenceDataLocation //
+	ReferenceDataLocation
+
 	// ReferenceDataUrlsCheckinLinks //
 	ReferenceDataUrlsCheckinLinks
 
@@ -323,6 +326,9 @@ func (a *Amadeus) NewRequest(req int) (Request, Response, error) {
 		return new(TravelAnalyticsAirTrafficRequest), new(TravelAnalyticsAirTrafficResponse), nil
 	case ReferenceDataLocations:
 		return new(ReferenceDataLocationsRequest), new(ReferenceDataLocationsResponse), nil
+	case ReferenceDataLocation:
+		return new(ReferenceDataLocationsRequest), new(ReferenceDataLocationResponse), nil
+
 	case ReferenceDataUrlsCheckinLinks:
 		return new(ReferenceDataUrlsCheckinLinksRequest), new(ReferenceDataUrlsCheckinLinksResponse), nil
 	case ReferenceDataAirlines:

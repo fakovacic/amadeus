@@ -220,6 +220,22 @@ func (dR *ReferenceDataLocationsResponse) Decode(rsp []byte) error {
 	return nil
 }
 
+type ReferenceDataLocationResponse struct {
+	Meta Meta         `json:"meta"`
+	Data LocationData `json:"data"`
+}
+
+// Decode implement Response interface
+func (dR *ReferenceDataLocationResponse) Decode(rsp []byte) error {
+
+	err := json.Unmarshal(rsp, &dR)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 type LocationData struct {
 	Type           string            `json:"type"`
 	SubType        string            `json:"subType"`
