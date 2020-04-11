@@ -176,6 +176,12 @@ go get https://github.com/fakovacic/amadeus
 
  * POST /v1/booking/hotel-bookings
 
+### Destination content
+
+#### Location
+
+ * GET /v1/reference-data/locations/pois
+
 ### Trip
 
 #### Artificial Inteligence
@@ -192,12 +198,6 @@ go get https://github.com/fakovacic/amadeus
  * POST /v1/shopping/flight-offers/prediction
  * GET  /v1/travel/predictions/flight-delay
 
-### Destination content
-
-#### Location
-
- * GET /v1/reference-data/locations/pois
-
 ### Trip
 
 #### Utilities
@@ -205,6 +205,3 @@ go get https://github.com/fakovacic/amadeus
  * POST /v2/travel/trip-parser-jobs
  * GET  /v2/travel/trip-parser-jobs/{{jobId}}
  * GET  /v2/travel/trip-parser-jobs/{{jobId}}/result
-
-
-

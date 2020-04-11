@@ -342,7 +342,7 @@ func (sR ShoopingHotelOffersRequest) JoinInts(intSlice []int) string {
 		valuesText = append(valuesText, text)
 	}
 
-	return strings.Join(valuesText, "+")
+	return strings.Join(valuesText, ",")
 }
 
 // GetURL returned key=value format for request on api

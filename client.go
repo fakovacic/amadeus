@@ -114,6 +114,13 @@ const (
 	// allows you to book the best hotel offers you have searched from a wide choice of providers
 	bookingHotelBookingsURL = "/booking/hotel-bookings"
 
+	////////////////////
+	// 	DESTINATIONS  //
+	////////////////////
+
+	// Points of Interest
+	referenceDataLocationsPoisURL = "/reference-data/locations/pois"
+
 	////////////
 	// 	TRIP  //
 	////////////
@@ -175,6 +182,12 @@ const (
 
 	// BookingHotelBookings //
 	BookingHotelBookings
+
+	// ReferenceDataLocationsPois //
+	ReferenceDataLocationsPois
+
+	// ReferenceDataLocationsPoi //
+	ReferenceDataLocationsPoi
 
 	// TravelPredictionTripPurpose //
 	TravelPredictionTripPurpose
@@ -328,6 +341,14 @@ func (a *Amadeus) NewRequest(req int) (Request, Response, error) {
 		return new(EReputationHotelSentimentsRequest), new(EReputationHotelSentimentsResponse), nil
 	case BookingHotelBookings:
 		return new(BookingHotelBookingsRequest), new(BookingHotelBookingsResponse), nil
+
+	//
+	// DESTINATIONS
+	//
+	case ReferenceDataLocationsPois:
+		return new(ReferenceDataLocationsPoisRequest), new(ReferenceDataLocationsPoisResponse), nil
+	case ReferenceDataLocationsPoi:
+		return new(ReferenceDataLocationsPoisRequest), new(ReferenceDataLocationsPoiResponse), nil
 
 	//
 	// TRIP
