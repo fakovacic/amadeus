@@ -132,14 +132,6 @@ go get https://github.com/fakovacic/amadeus
  * GET  /v1/shopping/flight-dates
 
  * POST /v1/shopping/flight-offers/pricing
-
- * GET  /v1/shopping/seatmaps
- * POST /v1/shopping/seatmaps
-
-#### Booking
-
- * POST /v1/booking/flight-orders
- * GET  /v1/booking/flight-orders/{orderID}
  
 #### Travel Insights
 
@@ -162,19 +154,9 @@ go get https://github.com/fakovacic/amadeus
 
 ### Hotel
 
-#### Search & Shooping
-
- * GET /v2/shopping/hotel-offers
- * GET /v2/shopping/hotel-offers/by-hotel
- * GET /v2/shopping/hotel-offers/{id}
-
 #### Travel Insights
 
  * GET /v2/e-reputation/hotel-sentiments
-
-#### Booking
-
- * POST /v1/booking/hotel-bookings
 
 ### Destination content
 
@@ -189,14 +171,37 @@ go get https://github.com/fakovacic/amadeus
  * GET  /v1/travel/predictions/trip-purpose
  * GET /v2/media/files/generated-photos
 
+
 ## Missing endpoints
 
 ### AIR
+
+### Shooping
+
+ * GET  /v1/shopping/seatmaps
+ * POST /v1/shopping/seatmaps
+
+#### Booking
+
+ * POST /v1/booking/flight-orders
+ * GET  /v1/booking/flight-orders/{orderID}
 
 #### Artificial Inteligence
 
  * POST /v1/shopping/flight-offers/prediction
  * GET  /v1/travel/predictions/flight-delay
+
+### Hotel
+
+#### Search & Shooping
+
+ * GET /v2/shopping/hotel-offers
+ * GET /v2/shopping/hotel-offers/by-hotel
+ * GET /v2/shopping/hotel-offers/{id}
+
+#### Booking
+
+ * POST /v1/booking/hotel-bookings
 
 ### Trip
 
