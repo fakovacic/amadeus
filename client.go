@@ -415,11 +415,11 @@ func (a *Amadeus) Do(req Request, resp *Response, reqType string) error {
 		return err
 	}
 
-	fmt.Println("------------------")
-	fmt.Println(rsp.StatusCode)
-	fmt.Println(req.GetURL(baseURL, reqType))
+	// fmt.Println("------------------")
+	// fmt.Println(rsp.StatusCode)
+	// fmt.Println(req.GetURL(baseURL, reqType))
 	fmt.Println(string(b))
-	fmt.Println("------------------")
+	// fmt.Println("------------------")
 
 	// decode response to struct
 	err = (*resp).Decode(b)
