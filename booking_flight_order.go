@@ -42,6 +42,31 @@ func (sR *BookingFlightOrderRequest) AddTicketingAgreement(option, delay string)
 	return sR
 }
 
+// NewCard create card struct
+func (sR BookingFlightOrderRequest) NewCard(vendorCode, cardNumber, expiryDate string) *Payment {
+
+	// check vendorCode
+	// check cardNumber
+	// check expiryDate
+
+	return &Payment{
+		Method: "creditCard",
+		Card: Card{
+			VendorCode: vendorCode,
+			CardNumber: cardNumber,
+			ExpiryDate: expiryDate,
+		},
+	}
+}
+
+// AddPayment add payment to request
+func (sR *BookingFlightOrderRequest) AddPayment(payment *Payment) *BookingFlightOrderRequest {
+
+        sR.Data.Payments = append(sR.Data.Payments, *payment)
+
+        return sR
+}
+
 // AddTraveler add traveler to request
 func (sR BookingFlightOrderRequest) NewTraveler(firstName, lastName, gender, dateOfBirth string) *Traveler {
 
@@ -169,6 +194,7 @@ type OrderData struct {
 	Remarks            Remarks            `json:"remarks,omitempty"`
 	FormOfPayments     []FormOfPayments   `json:"formOfPayments,omitempty"`
 	AutomatedProcess   []AutomatedProcess `json:"automatedProcess,omitempty"`
+        Payments           []Payment          `json:"payments,omitempty"`
 }
 
 type AssociatedRecord struct {
@@ -185,6 +211,7 @@ type Traveler struct {
 	Gender      string          `json:"gender,omitempty"`
 	Contact     TravelerContact `json:"contact,omitempty"`
 	Documents   []Document      `json:"documents,omitempty,omitempty"`
+        Payments    []Payment       `json:"payments,omitempty"`
 }
 
 // AddEmail add email address to traveler
