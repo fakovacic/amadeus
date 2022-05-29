@@ -1,5 +1,5 @@
-module github.com/autotune/amadeus
+module github.com/fakovacic/amadeus
 
-go 1.14
+go 1.18
 
 require github.com/joho/godotenv v1.3.0
