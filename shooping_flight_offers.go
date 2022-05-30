@@ -14,6 +14,7 @@ import (
 
 type ShoppingFlightOffersRequest struct {
 	CurrencyCode       string              `json:"currencyCode,omitempty"`
+	CarrierCode        string              `json:"operating,omitempty"`
 	OriginDestinations []OriginDestination `json:"originDestinations,omitempty"`
 	Travelers          []Travelers         `json:"travelers,omitempty"`
 	Sources            []string            `json:"sources,omitempty"`
@@ -56,7 +57,13 @@ type CarrierRestrictions struct {
 	ExcludedCarrierCodes []string `json:"excludedCarrierCodes,omitempty"`
 }
 
-// sR.CurrencyCode = currency
+// SetCarrier set carrier code
+func (sR *ShoppingFlightOffersRequest) SetCarrier(carrier string) *ShoppingFlightOffersRequest {
+
+	sR.CarrierCode = carrier
+
+	return sR
+}
 
 // SetCurrency set currency code
 func (sR *ShoppingFlightOffersRequest) SetCurrency(currency string) *ShoppingFlightOffersRequest {
@@ -252,6 +259,10 @@ func (sR ShoppingFlightOffersRequest) GetURL(baseURL, reqType string) string {
 
 		if sR.CurrencyCode != "" {
 			queryParams = append(queryParams, "currencyCode="+sR.CurrencyCode)
+		}
+
+		if sR.CarrierCode != "" {
+			queryParams = append(queryParams, "includedAirlineCodes="+sR.CarrierCode)
 		}
 
 		// TODO

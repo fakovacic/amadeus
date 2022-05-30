@@ -5,6 +5,7 @@ import (
 	"io"
 	"strconv"
 	"strings"
+        "fmt"
 )
 
 // BookingFlightOrder
@@ -98,6 +99,15 @@ func (sR *BookingFlightOrderRequest) AddTraveler(traveler *Traveler) *BookingFli
 	return sR
 }
 
+
+// Add carrier code to request
+func (sR *BookingFlightOrderRequest) SetCarrier(carrier string) *BookingFlightOrderRequest {
+
+        sR.Data.CarrierCodes.CarrierCode = carrier
+
+        return sR
+}
+
 // NewContact add contact to request
 func (sR BookingFlightOrderRequest) NewContact(firstName, lastName, company, purpose string) *Contact {
 
@@ -154,6 +164,7 @@ func (sR BookingFlightOrderRequest) GetBody(reqType string) io.Reader {
 		return nil
 	case "POST":
 		reqPayload, err := json.Marshal(sR)
+                fmt.Println(strings.NewReader(string(reqPayload)))
 		if err != nil {
 			return nil
 		}
@@ -195,6 +206,7 @@ type OrderData struct {
 	FormOfPayments     []FormOfPayments   `json:"formOfPayments,omitempty"`
 	AutomatedProcess   []AutomatedProcess `json:"automatedProcess,omitempty"`
         Payments           []Payment          `json:"payments,omitempty"`
+        CarrierCodes       CarrierCode        `json:"operating,omitempty"`
 }
 
 type AssociatedRecord struct {
@@ -297,6 +309,7 @@ type AddresseeName struct {
 	FirstName string `json:"firstName,omitempty"`
 	LastName  string `json:"lastName,omitempty"`
 }
+
 type Address struct {
 	Lines       []string `json:"lines,omitempty"`
 	PostalCode  string   `json:"postalCode,omitempty"`
@@ -336,6 +349,15 @@ type Other struct {
 
 type Remarks struct {
 	General []Remark `json:"general,omitempty"`
+}
+
+type CarrierCodes struct {
+	General []CarrierCode `json:"carrierCode,omitempty"`
+}
+
+type CarrierCode struct {
+	SubType     string `json:"subType,omitempty"`
+	CarrierCode string `json:"carrierCode,omitempty"`
 }
 
 type Remark struct {
