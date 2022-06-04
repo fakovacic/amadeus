@@ -204,8 +204,8 @@ type OrderData struct {
 	Remarks            Remarks            `json:"remarks,omitempty"`
 	FormOfPayments     []FormOfPayments   `json:"formOfPayments,omitempty"`
 	AutomatedProcess   []AutomatedProcess `json:"automatedProcess,omitempty"`
-        Payments           []Payment          `json:"payments,omitempty"`
-        CarrierCodes       CarrierCode        `json:"operating,omitempty"`
+  Payments           []Payment          `json:"payments,omitempty"`
+  CarrierCodes       CarrierCode        `json:"operating,omitempty"`
 }
 
 type AssociatedRecord struct {

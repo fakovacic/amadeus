@@ -8,12 +8,6 @@ import (
 	"amadeus2"
 )
 
-type Iot struct {
-	Id      int             `json:"id"`
-	Name    string          `json:"name"`
-	Context json.RawMessage `json:"context"`
-}
-
 func main() {
 	client, err := amadeus.New(
 		os.Getenv("AMADEUS_CLIENT_ID"),
