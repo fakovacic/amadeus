@@ -5,7 +5,7 @@ import (
 	"io"
 	"strconv"
 	"strings"
-        "fmt"
+        // "fmt"
 )
 
 // BookingFlightOrder
@@ -164,7 +164,6 @@ func (sR BookingFlightOrderRequest) GetBody(reqType string) io.Reader {
 		return nil
 	case "POST":
 		reqPayload, err := json.Marshal(sR)
-                fmt.Println(strings.NewReader(string(reqPayload)))
 		if err != nil {
 			return nil
 		}
