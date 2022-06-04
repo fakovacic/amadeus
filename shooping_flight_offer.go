@@ -12,6 +12,7 @@ type FlightOffer struct {
 	LastTicketingDate        string            `json:"lastTicketingDate,omitempty"`
 	NumberOfBookableSeats    int               `json:"numberOfBookableSeats,omitempty"`
 	Itineraries              []Itinerarie      `json:"itineraries,omitempty"`
+        Operating                []Operating       `json:"operating,omitempty"`
 	Price                    Price             `json:"price,omitempty"`
 	PricingOptions           PricingOption     `json:"pricingOptions,omitempty"`
 	ValidatingAirlineCodes   []string          `json:"validatingAirlineCodes,omitempty"`
@@ -47,6 +48,7 @@ type Destination struct {
 type Aircraft struct {
 	Code string `json:"code,omitempty"`
 }
+
 type Operating struct {
 	CarrierCode string `json:"carrierCode,omitempty"`
 }

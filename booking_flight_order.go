@@ -5,6 +5,7 @@ import (
 	"io"
 	"strconv"
 	"strings"
+        // "fmt"
 )
 
 // BookingFlightOrder
@@ -96,6 +97,15 @@ func (sR *BookingFlightOrderRequest) AddTraveler(traveler *Traveler) *BookingFli
 	sR.Data.Travelers = append(sR.Data.Travelers, *traveler)
 
 	return sR
+}
+
+
+// Add carrier code to request
+func (sR *BookingFlightOrderRequest) SetCarrier(carrier string) *BookingFlightOrderRequest {
+
+        sR.Data.CarrierCodes.CarrierCode = carrier
+
+        return sR
 }
 
 // NewContact add contact to request
@@ -194,7 +204,8 @@ type OrderData struct {
 	Remarks            Remarks            `json:"remarks,omitempty"`
 	FormOfPayments     []FormOfPayments   `json:"formOfPayments,omitempty"`
 	AutomatedProcess   []AutomatedProcess `json:"automatedProcess,omitempty"`
-        Payments           []Payment          `json:"payments,omitempty"`
+  Payments           []Payment          `json:"payments,omitempty"`
+  CarrierCodes       CarrierCode        `json:"operating,omitempty"`
 }
 
 type AssociatedRecord struct {
@@ -297,6 +308,7 @@ type AddresseeName struct {
 	FirstName string `json:"firstName,omitempty"`
 	LastName  string `json:"lastName,omitempty"`
 }
+
 type Address struct {
 	Lines       []string `json:"lines,omitempty"`
 	PostalCode  string   `json:"postalCode,omitempty"`
@@ -336,6 +348,15 @@ type Other struct {
 
 type Remarks struct {
 	General []Remark `json:"general,omitempty"`
+}
+
+type CarrierCodes struct {
+	General []CarrierCode `json:"carrierCode,omitempty"`
+}
+
+type CarrierCode struct {
+	SubType     string `json:"subType,omitempty"`
+	CarrierCode string `json:"carrierCode,omitempty"`
 }
 
 type Remark struct {

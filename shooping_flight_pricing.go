@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"io"
 	"strings"
+        // "fmt"
 )
 
 // ShoppingFlightPricingRequest
@@ -46,6 +47,7 @@ func (sR ShoppingFlightPricingRequest) GetBody(reqType string) io.Reader {
 	switch reqType {
 	case "POST":
 		reqPayload, err := json.Marshal(sR)
+                // fmt.Println(strings.NewReader(string(reqPayload)))
 		if err != nil {
 			return nil
 		}
